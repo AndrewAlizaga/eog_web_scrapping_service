@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "nodejs": "0.0.0",
+    "nodemon": "^2.0.13",
+    "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "diario": "nodemon web_scrapper_nuevo_diario.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Andrew Alizaga",
+  "license": "ISC"
+}
