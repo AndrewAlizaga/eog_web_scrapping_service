@@ -9,12 +9,13 @@
     "helmet": "^4.6.0",
     "nodejs": "0.0.0",
     "nodemon": "^2.0.13",
+    "npm": "^8.0.0",
     "puppeteer": "^5.5.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "diario": "nodemon web_scrapper_nuevo_diario.js",
+    "diario": "nodemon ./scrappers/web_scrapper_nuevo_diario.js",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },

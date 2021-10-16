@@ -4,7 +4,13 @@ const express = require("express")
 require("dotenv").config()
 const port = process.env.PORT || 8000
 
+//Router
+const router = require('./routes')
+
+
 const app = express()
+
+app.use('/api', router)
 
 //testing
 app.get("/", (req, res) => {

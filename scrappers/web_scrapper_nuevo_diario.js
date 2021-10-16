@@ -1,7 +1,10 @@
 const puppeteer = require("puppeteer");
-const { detectViolence, detectNames } = require("./services/pattern_detector");
-const {imgFilter} = require("./services/image_filter")
-const {CaseSources} = require("./utils/Enums");
+const { detectViolence, detectNames } = require("../services/pattern_detector");
+const {imgFilter} = require("../services/image_filter")
+const {CaseSources} = require("../utils/Enums");
+const {convertStringToUrlQuery} = require("../utils/parseHelper");
+
+
 
 //Proceed to turn code into 1 shoot usage
 const sampleCases = {
@@ -10,15 +13,17 @@ const sampleCases = {
     intentoLesionNina: 'https://www.elnuevodiario.com.ni/sucesos/501775-asesinato-violencia-policia-managua/'
 };
 
+const base_url = "https://www.elnuevodiario.com.ni/busqueda/?q="
+
 let collectedData = {}
 
-const collectData = async  => {
+const collectData = async(name)  => {
     const browser = await puppeteer.launch({headless: false});
 
     const page = await browser.newPage();
 
-
-    await page.goto(sampleCases.asesinatoChureca, {waitUntil: 'networkidle2'});
+	
+    await page.goto(base_url+name, {waitUntil: 'networkidle2'});
 
     //Get  dimensions
     const collectedData = await page.evaluate(() => {
@@ -32,12 +37,15 @@ const collectData = async  => {
         let date;
 
         title = document.querySelector('.title').textContent;
+	console.log('flag 1')
         paragraphs_unfiltered = [...document.querySelectorAll('p')].map(e => e.innerText);
+	consol.log('flag 2')
         date = [...document.querySelectorAll('time')].map(e => e.innerText);
         unfiltered_img_url_list = [...document.querySelectorAll('img')].map(e => e.src);
     
         var date_ = date[0].toString() + date[1].toString();
         
+	console.log("passed queries")
         //paragraphs_unfiltered = paragraphs_unfiltered.
         return {
             title,
@@ -50,6 +58,7 @@ const collectData = async  => {
     //Classificatino services
     //Keep on JS or migrate to GOLANG
 
+	console.log("post browser?")
     //Clasify find violent metions
     collectedData.type = await detectViolence(collectedData.paragraphs_unfiltered);
 
@@ -66,6 +75,9 @@ const collectData = async  => {
     //await page.pdf({path: 'hn.pdf', format: 'A4'});
 
     await browser.close();
+
+   return collectedData
 };
 
 module.exports = collectData
+
