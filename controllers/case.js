@@ -7,7 +7,7 @@ const nuevoDiario = require("../scrappers/web_scrapper_nuevo_diario")
 const searchCase = async (req, res) => {
 
 	
-	
+	let results = null
 
 	let bot = 1
 
@@ -20,6 +20,7 @@ const searchCase = async (req, res) => {
 	
 	if(!bot || bot.localeCompare!=0){
 		try{
+			console.log('red flag')
 			results = await nuevoDiario(name);
 			
 			return res.status(200).json(results)
@@ -28,7 +29,6 @@ const searchCase = async (req, res) => {
 		}
 	}
 
-	let results = null
 
 	switch(bot){
 		
@@ -39,8 +39,13 @@ const searchCase = async (req, res) => {
 		//Nuevo diario
 		case 1:
 			try{ 
-                                results = await nuevoDiario();
+		              console.log('pre bot call')
+                  		results = await nuevoDiario();
+				console.log('WAITED')
+				console.log(results)
+				return res.status(200).json(results)
                         }catch(e){ 
+				console.log('exception triggered')
                                 return res.status(503).json({'message': e.toString()})
                         }                        
 			break;
@@ -57,7 +62,7 @@ const searchCase = async (req, res) => {
 	}
 	
 	//Scrapping ready
-	return res.status(200).json(results)
+	//return res.status(200).json(results)
 
 }
 
