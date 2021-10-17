@@ -16,8 +16,8 @@ async function imgFilter(unfilter_img_array, origin){
             break;
     }
 
-    console.log('filtered images');
-    console.log(filtered_img_array);
+  //  console.log('filtered images');
+//    console.log(filtered_img_array);
     
     return filtered_img_array
 

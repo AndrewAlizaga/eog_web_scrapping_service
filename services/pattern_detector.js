@@ -12,7 +12,7 @@ async function readFileToWords(path_){
     let foundData = await readFile(path_);
 
     if(!foundData){
-        console.log('no found data')
+//        console.log('no found data')
         return Error;
     }
 
@@ -22,11 +22,11 @@ async function readFileToWords(path_){
 
 function characterKiller(word, characterToKill){
 
-    console.log('entered character killer')
+  //  console.log('entered character killer')
     var new_word = word.split(characterToKill).join(' ');
     
-    console.log('new word after character ejection');
-    console.log(new_word);
+  //  console.log('new word after character ejection');
+   // console.log(new_word);
     return new_word;
 }
 
@@ -56,11 +56,11 @@ async function detectNames(data){
         return Error('file read failed')
     }
 
-    console.log('Data read')
+   // console.log('Data read')
 
     let key_words_array = foundData.toString().toLowerCase().split('\n')
 
-    console.log(key_words_array);
+    //console.log(key_words_array);
 
     let party_names = [];
 
@@ -72,17 +72,17 @@ async function detectNames(data){
             break;
         }
 
-        console.log('evaluating: '+sample[i].toString().toLowerCase());
+      //  console.log('evaluating: '+sample[i].toString().toLowerCase());
         var match = false;
         var possible_name = '';
 
         //First name level match
         if(key_words_array.includes(sample[i].toString().toLowerCase())){
-            console.log('first duple matched');
+        //    console.log('first duple matched');
             
             //Second name level match
             if(key_words_array.includes(sample[i+1].toString().toLowerCase())){
-                console.log('double match, party member found');
+          //      console.log('double match, party member found');
             
                 possible_name = sample[i].toLowerCase();
                 //Extra increment applied
@@ -98,11 +98,11 @@ async function detectNames(data){
                     break;
                 }
                 
-                console.log('checking for extended name');
+            //    console.log('checking for extended name');
 
                 //Third name level match
                 if(key_words_array.includes(sample[i + 1].toString().toLowerCase())){
-                    console.log('third match appeared')
+              //      console.log('third match appeared')
 
                     //Second extra increment applied
                     i++;
@@ -116,7 +116,7 @@ async function detectNames(data){
 
                     //Fourth name level match
                     if(key_words_array.includes(sample[i + 1].toString().toLowerCase())){
-                        console.log('third match appeared')
+                //        console.log('third match appeared')
                         
                         //Second extra increment applied
                         i++;
@@ -155,19 +155,19 @@ async function detectViolence(data){
     const foundData = await readFileToWords(path.join(__dirname, '../') + '/utils/violence_file.txt');
     
     if(!foundData){
-        console.log('no found data')
+       // console.log('no found data')
         return ''
     }else{
-        console.log('found Data')
+      //  console.log('found Data')
         let key_words_array = foundData.split(' ')
-        console.log(key_words_array)
+       // console.log(key_words_array)
         
         var violence_match = false;
 
         for(var i = 0; i < sample.length; i++){
             
             var testWord = sample[i];
-            console.log('checking '+ testWord);
+         //   console.log('checking '+ testWord);
             var match = key_words_array.includes(testWord.toString().toLowerCase());
             if(match){
                 violence_match = true;
@@ -175,7 +175,7 @@ async function detectViolence(data){
             }
         }
 
-        console.log('loop finished')
+        //console.log('loop finished')
 
         if(violence_match){
             return CaseNature.violent

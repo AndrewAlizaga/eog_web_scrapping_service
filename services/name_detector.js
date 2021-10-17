@@ -13,7 +13,7 @@ function findName(sample){
         return Error('file read failed')
     }
 
-    console.log('Data read')
+//    console.log('Data read')
 
     let 
 } 
