@@ -17,7 +17,32 @@ const base_url = "https://www.elnuevodiario.com.ni/busqueda/?q="
 
 let collectedData = {}
 
-const evaluateFunction = async (casesList) => {
+const evaluateFunction = async (page, casesList) => {
+	
+	casesList = await page.evaluate(async (casesList) => {
+	console.log('debugging function')
+	console.log(casesList)
+	console.log(`url is ${location.href}`)
+        casesList.push(document.getElementsByClassName('gsc-webResult gsc-result'))
+	console.log('new blocks added to the cases list')
+	return casesList
+	})
+}
+
+const getPagesNumb = async (page) => {
+	
+	var pageNumber = await page.evaluate(async () => {
+	
+	var pages = [...document.getElementsByClassName('gsc-cursor-page')]
+	
+	console.log('pages')
+	console.log(pages.length)
+	return pages.length
+	
+	})
+	console.log('p links')
+	console.log(pageNumber)
+	return pageNumber
 
 }
 
@@ -36,48 +61,35 @@ const collectData = async(name)  => {
     await page.goto(base_url+name, {waitUntil: 'networkidle2'});
 
     //Get  dimensions
+    let pagesLinks = await getPagesNumb(page);
+    
+	console.log('obtained links')
+	console.log(pagesLinks)
+	
+	for(i=0;i<pagesLinks;i++){
+		
+		if(i!=0){
+			//simulate page click
+		}
+		//get data
+		console.log('debugging casesList prior sending')
+		console.log(casesList)
+		casesList = await evaluateFunction(page, casesList)
+	}
+	
+	
+	
     const collectedData = await page.evaluate( async () => {
 
         console.log(`url is ${location.href}`);
 	
 
-	//10 dimentions array
-	let casesList = [];
-	
-	let page_list = [];
-	
-	let pages_links = document.querySelectorAll("a");
-	
-	console.log('articles links');
-//	console.log(page_links[3])
-	
 	let pagesNumb = [...document.getElementsByClassName('gsc-cursor-page')].map(e => e.innerText)
 	let pagesObj = [...document.getElementsByClassName('gsc-cursor-page')]
 	
-	console.log(pagesNumb)
-	console.log(pagesObj)
-
-	console.log('options array')
-	console.log(pagesNumb.length)
 	var pageAmount = pagesNumb.length
-	casesList = 
-	/*
-	for(i=1; i<=pageAmount; i++){
-		
-		let matchBlocks = document.getElementsByClassName('gsc-webResult gsc-result')
-        	console.log('match blocks')
-        	console.log(matchBlocks)
-        	casesList.push(matchBlocks)
-		
-		//move to next page
-		//pagesObj[i].click()
-		console.log('clicked next page '+i)
-		console.log(pagesObj[i])
-	//	await page.waitForNavigation();
-	}*/
+	casesList.push(document.getElementsByClassName('gsc-webResult gsc-result'))
 	
-	console.log('block bucle')
-	/*OLD CODE*/
         
         let title;
         let paragraphs_unfiltered = [];
@@ -86,7 +98,13 @@ const collectData = async(name)  => {
 	/*
 	console.log('pre querying')
         title = document.querySelector('.title').textContent;
-	console.log('flag 1')
+	console.log('fla let pagesNumb = [...document.getElementsByClassName('gsc-cursor-page')].map(e => e.innerText)
+        let pagesObj = [...document.getElementsByClassName('gsc-cursor-page')]
+
+        var pageAmount = pagesNumb.length
+        casesList.push(document.getElementsByClassName('gsc-webResult gsc-result'))
+
+g 1')
         paragraphs_unfiltered = [...document.querySelectorAll('p')].map(e => e.innerText);
 	console.log('flag 2')
         date = [...document.querySelectorAll('time')].map(e => e.innerText);
