@@ -19,14 +19,17 @@ let collectedData = {}
 
 const evaluateFunction = async (page, casesList) => {
 	
-	casesList = await page.evaluate(async (casesList) => {
+        console.log('array prior page dom')
+        console.log(casesList)
+
+	await page.evaluate(async (casesList) => {
 	console.log('debugging function')
 	console.log(casesList)
 	console.log(`url is ${location.href}`)
         casesList.push(document.getElementsByClassName('gsc-webResult gsc-result'))
 	console.log('new blocks added to the cases list')
-	return casesList
-	})
+	}, casesList)
+        return casesList
 }
 
 const getPagesNumb = async (page) => {
@@ -46,6 +49,28 @@ const getPagesNumb = async (page) => {
 
 }
 
+const pageClick = async (page, index) => {
+        console.log('clicking function '+index)
+        await page.click('[name="commit"]')
+
+        await page.evaluate(async (index) => {
+                let elements = document.getElementsByClassName("gsc-cursor-page")
+                let toClick = elements[index]
+                toClick.click()
+        }, index)    
+        console.log("end of page click function")
+        try {
+             /*   await page.waitForNavigation({
+                        waitUntil: 'networkidle2'
+                      });   */          
+        } catch (error) {
+                console.log('error found')
+                console.log(error)
+        }
+                 
+        console.log('end of page click waiting')
+}
+
 const collectData = async(name)  => {
     const browser = await puppeteer.launch({headless: false, defaultViewport: {
         width:1920,
@@ -53,7 +78,11 @@ const collectData = async(name)  => {
       }});
 
     const page = await browser.newPage();
-	
+
+      //REMOVE TIMEOUT LIMIT
+      await page.setDefaultNavigationTimeout(0); 
+
+
     let casesList = []
     let pagesObj = []
 	
@@ -67,15 +96,25 @@ const collectData = async(name)  => {
 	console.log(pagesLinks)
 	
 	for(i=0;i<pagesLinks;i++){
-		
+		console.log("bucle run: "+i+" from: "+pagesLinks)
 		if(i!=0){
 			//simulate page click
-		}
-		//get data
-		console.log('debugging casesList prior sending')
-		console.log(casesList)
-		casesList = await evaluateFunction(page, casesList)
+                        await pageClick(page, i)
+                        //get data
+                        console.log('debugging casesList prior sending')
+                        console.log(casesList)
+                        casesList = await evaluateFunction(page, casesList)
+                        console.log("end of evaluateFunction")
+		}else{
+                        //get data
+                        console.log('debugging casesList prior sending')
+                        console.log(casesList)
+                        casesList = await evaluateFunction(page, casesList)
+                }
+		
 	}
+
+        return casesList
 	
 	
 	
