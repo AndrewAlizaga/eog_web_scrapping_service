@@ -22,6 +22,8 @@ const searchCase = async (req, res) => {
 		try{
 			console.log('red flag')
 			results = await nuevoDiario(name);
+			//Got threats check on redis if being analyze
+			
 			
 			return res.status(200).json(results)
 		}catch(e){

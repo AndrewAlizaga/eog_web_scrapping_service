@@ -4,6 +4,12 @@ const {imgFilter} = require("../services/image_filter")
 const {CaseSources} = require("../utils/Enums");
 const {convertStringToUrlQuery} = require("../utils/parseHelper");
 
+//Web scrapper functions
+const pageClick = require("../services/scrapper/click")
+
+//Redis
+const {getAsync, setAsync} = require("../services/db/redis/index")
+const Lead = require("../services/db/models/leads")
 
 
 //Proceed to turn code into 1 shoot usage
@@ -22,13 +28,35 @@ const evaluateFunction = async (page, casesList) => {
         console.log('array prior page dom')
         console.log(casesList)
 
-	await page.evaluate(async (casesList) => {
-	console.log('debugging function')
-	console.log(casesList)
-	console.log(`url is ${location.href}`)
-        casesList.push(document.getElementsByClassName('gsc-webResult gsc-result'))
-	console.log('new blocks added to the cases list')
-	}, casesList)
+        let caseArray = ['']
+
+	casesList = await page.evaluate(async (caseArray) => {
+
+        console.log('about to search links')
+        //Array to store the cases links
+
+        caseArray = Array.from(document.getElementsByTagName('a'), (a) =>  {
+
+                console.log('inspecting element')
+                console.log(a.className)
+
+                if(a.className == 'gs-title' && a.href !== '' && a.href !== null){
+                        console.log('returning a.href')
+                        console.log(a.href)
+                        return a.href
+                }
+
+                //a.href
+
+        });
+        
+        
+        return caseArray
+
+	}, caseArray)
+
+        console.log('return case list: ')
+        console.log(casesList[0])
         return casesList
 }
 
@@ -49,29 +77,15 @@ const getPagesNumb = async (page) => {
 
 }
 
-const pageClick = async (page, index) => {
-        console.log('clicking function '+index)
-        await page.click('[name="commit"]')
 
-        await page.evaluate(async (index) => {
-                let elements = document.getElementsByClassName("gsc-cursor-page")
-                let toClick = elements[index]
-                toClick.click()
-        }, index)    
-        console.log("end of page click function")
-        try {
-             /*   await page.waitForNavigation({
-                        waitUntil: 'networkidle2'
-                      });   */          
-        } catch (error) {
-                console.log('error found')
-                console.log(error)
-        }
-                 
-        console.log('end of page click waiting')
-}
 
 const collectData = async(name)  => {
+
+
+        //check for key name so search does not repeat
+
+
+
     const browser = await puppeteer.launch({headless: false, defaultViewport: {
         width:1920,
         height:1080
@@ -98,22 +112,70 @@ const collectData = async(name)  => {
 	for(i=0;i<pagesLinks;i++){
 		console.log("bucle run: "+i+" from: "+pagesLinks)
 		if(i!=0){
+                        let newCases = []
 			//simulate page click
+                        console.log('about to click')
                         await pageClick(page, i)
                         //get data
                         console.log('debugging casesList prior sending')
                         console.log(casesList)
-                        casesList = await evaluateFunction(page, casesList)
+                        newCases = await evaluateFunction(page, casesList)
+                        //filter links
+                        console.log('list length 1: '+newCases.length)
+
+                        newCases = newCases.filter(x => {
+                                if (x !== '' && x !== null) return true
+                                else return false
+                        })
+                        console.log('list length 2: '+newCases.length)
+
+                        casesList = casesList.concat(newCases)
+                        console.log(casesList)
+                        console.log('list length: '+casesList.length)
                         console.log("end of evaluateFunction")
 		}else{
                         //get data
+                        let newCases = []
                         console.log('debugging casesList prior sending')
                         console.log(casesList)
-                        casesList = await evaluateFunction(page, casesList)
+                        newCases = await evaluateFunction(page, casesList)
+                        //filter links
+                        console.log('list length 1: '+newCases.length)
+
+                        newCases = newCases.filter(x => {
+                                if (x !== '' && x !== null) return true
+                                else return false
+                        })
+
+                        console.log('list length 2: '+newCases.length)
+                        
+                        casesList = casesList.concat(newCases)
+                        console.log('list length 3: '+casesList.length)
+                        console.log(casesList)
+                        console.log('index: '+i+' finished')
                 }
 		
 	}
 
+        //Store on redis to indicate current analysis for future searches
+        //Avoid repeating process and waste resources
+        await casesList.forEach( async x =>  {
+
+                var new_lead = new Lead(x, 'processing', 'nuevo_diario')
+                
+                console.log('object')
+                console.log(new_lead)
+                //check if lead is already existing first
+                //ceck prior setting goes here.. call get
+
+                //Store each case status on redis
+                setAsync(x, new_lead)
+        });
+
+        //RETURN SEARCH ID SO CLIENT CAN BE CHECKING REQUEST STATE
+
+
+        //START PROCESSING THREAD ON WORKER
         return casesList
 	
 	

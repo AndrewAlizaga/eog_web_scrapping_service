@@ -9,8 +9,9 @@
     "helmet": "^4.6.0",
     "nodejs": "0.0.0",
     "nodemon": "^2.0.13",
-    "npm": "^8.0.0",
-    "puppeteer": "^5.5.0"
+    "npm": "^8.3.0",
+    "puppeteer": "^5.5.0",
+    "redis": "^4.0.1"
   },
   "devDependencies": {},
   "scripts": {
