@@ -6,8 +6,8 @@ const port = process.env.PORT || 8000
 
 //Router
 const router = require('./routes')
-
-require("./services/db/redis/index").init()
+require('dotenv').config()
+require("./services/db/redis/index")
 
 const app = express()
 

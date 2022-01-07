@@ -1,10 +1,10 @@
-const {getAsync, setAsync} = require("../db/redis/index")
+const {getAsync, setAsync, client} = require("../db/redis/index")
 //const Lead = require("../services/db/models/leads")
 
 async function saveLeadDB(lead){
     try {
      
-        var result = await setAsync(lead.link, lead)   
+        var result = await client.set(lead.link, lead)   
         console.log('lead saving result')
         console.log(result)
         return result
@@ -21,7 +21,7 @@ async function checkIfLeadExists(link){
 
     try {
      
-        var lead_ = getAsync(link)   
+        var lead_ = await client.get(link)   
         exists = lead_?true:false
 
     } catch (error) {
