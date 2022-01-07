@@ -1,3 +1,5 @@
+
+
 class Lead {
 
     constructor(link_key, status, source){
@@ -5,6 +7,8 @@ class Lead {
         this.status = status;
         this.source = source
     }
+
+ 
 }
 
 module.exports = Lead

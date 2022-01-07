@@ -8,7 +8,7 @@ const {convertStringToUrlQuery} = require("../utils/parseHelper");
 const pageClick = require("../services/scrapper/click")
 
 //Redis
-const {getAsync, setAsync} = require("../services/db/redis/index")
+const LeadServices = require("../services/model_services/LeadServices")
 const Lead = require("../services/db/models/leads")
 
 
@@ -157,10 +157,33 @@ const collectData = async(name)  => {
 		
 	}
 
+
+
         //Store on redis to indicate current analysis for future searches
         //Avoid repeating process and waste resources
+
+        try {
+         
         await casesList.forEach( async x =>  {
 
+                console.log("evaluating: "+x)
+                //Check if leads exists already
+                try {
+                
+                        var exists = await LeadServices.checkIfLeadExists(x)       
+                } catch (error) {
+                        console.log('error checking if lead exists')
+                        console.log(error)
+                }
+
+                console.log('check result: '+x)
+
+                if(exists){
+                        console.log('lead already exists skipping process')
+                        return
+                }
+
+                console.log('lead does not exists executing process')
                 var new_lead = new Lead(x, 'processing', 'nuevo_diario')
                 
                 console.log('object')
@@ -169,8 +192,15 @@ const collectData = async(name)  => {
                 //ceck prior setting goes here.. call get
 
                 //Store each case status on redis
-                setAsync(x, new_lead)
-        });
+                //setAsync(x, new_lead)
+                LeadServices.saveLeadDB(new_lead)
+        });       
+        } catch (error) {
+                console.log('bucle error')
+                console.log(error)
+        }
+
+        console.log('leads saving is finished, proceed with temp search cache')
 
         //RETURN SEARCH ID SO CLIENT CAN BE CHECKING REQUEST STATE
 
