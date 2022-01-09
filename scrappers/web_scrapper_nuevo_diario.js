@@ -9,8 +9,9 @@ const pageClick = require("../services/scrapper/click")
 
 //Redis
 const LeadServices = require("../services/model_services/LeadServices")
-const Lead = require("../services/db/models/leads")
-
+const SearchServices = require("../services/model_services/SearchServices");
+const res = require("express/lib/response");
+const { fail } = require("assert");
 
 //Proceed to turn code into 1 shoot usage
 const sampleCases = {
@@ -54,6 +55,8 @@ const evaluateFunction = async (page, casesList) => {
         return caseArray
 
 	}, caseArray)
+
+      //  SearchServices.
 
         console.log('return case list: ')
         console.log(casesList[0])
@@ -162,54 +165,39 @@ const collectData = async(name)  => {
         //Store on redis to indicate current analysis for future searches
         //Avoid repeating process and waste resources
 
-        try {
-         
         await casesList.forEach( async x =>  {
 
                 console.log("evaluating: "+x)
                 //Check if leads exists already
-                try {
-                
-                        var exists = await LeadServices.checkIfLeadExists(x)       
-                } catch (error) {
-                        console.log('error checking if lead exists')
-                        console.log(error)
-                }
-
-                console.log('check result: '+x)
-
-                if(exists){
-                        console.log('lead already exists skipping process')
-                        return
-                }
-
-                console.log('lead does not exists executing process')
-                var new_lead = new Lead(x, 'processing', 'nuevo_diario')
-                
-                console.log('object')
-                console.log(new_lead)
-                //check if lead is already existing first
-                //ceck prior setting goes here.. call get
-
-                //Store each case status on redis
-                //setAsync(x, new_lead)
-                LeadServices.saveLeadDB(new_lead)
+                var source = 0
+                LeadServices.ProcessLead(x, source)
+              
         });       
-        } catch (error) {
-                console.log('bucle error')
-                console.log(error)
-        }
+    
 
-        console.log('leads saving is finished, proceed with temp search cache')
+        console.log('leads have been processed, proceed with temp search cache')
 
         //RETURN SEARCH ID SO CLIENT CAN BE CHECKING REQUEST STATE
+        const success = (result) =>
+        {
+                return res.status(200).json(result)
+        }
 
+        const failure = (error) =>
+        {
+        
+                return res.status(200).json(result)
+        }
+        
 
         //START PROCESSING THREAD ON WORKER
-        return casesList
+        SearchServices.processSearch({'leads': casesList, 'name': name, 'user_key': 'dev', 'status': 0}, true, success, failure)
+        
 	
-	
-	
+};
+
+async function compileCase (page) {
+
     const collectedData = await page.evaluate( async () => {
 
         console.log(`url is ${location.href}`);
@@ -282,7 +270,7 @@ g 1')
   //  await browser.close();
 	console.log("browser closed")
 //   return collectedData
-};
+}
 
 module.exports = collectData
 
