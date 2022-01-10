@@ -15,6 +15,7 @@ client.set('special', 123)
 const app = express()
 //app.redisClient = client
 
+app.use(express.json())
 
 app.use('/api', router)
 

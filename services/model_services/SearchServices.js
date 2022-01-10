@@ -2,10 +2,11 @@ const client = require("../db/redis/index")
 const Search = require("../db/models/search")
 
 
-async function processSearch(search, callbackSuccess, callbackFailure){
+async function processSearch(search, responding, callbackSuccess, callbackFailure){
     let current_date = new Date()
-    const search_ = new Search(search.leads, search.name, search.user_key, search.status, current_date)
-    checkIfSearchExists(search, saveSearch, responding = true, callbackSuccess, callbackFailure)
+    //const search_ = new Search(search.leads, search.name, search.user_key, search.status, current_date)
+
+    checkIfSearchExists(search, saveSearch, responding, callbackSuccess, callbackFailure)
 }
 
 async function saveSearch(search, responding = false, callbackSuccess = null, callbackFailure = null){
@@ -13,18 +14,18 @@ async function saveSearch(search, responding = false, callbackSuccess = null, ca
 
         //let load = JSONT
         var dumped = JSON.stringify(search)
-        console.log(dumped) 
+        //console.log(dumped) 
 
         client.setEx(search.name, 120, dumped)
         .then((x) => {
             console.log('success')
             if(responding){
-                callbackSuccess(x)
+                callbackSuccess(x, res)
             }
         })
         .catch(x => {
             if(responding)
-                callbackFailure(x)
+                callbackFailure(x, res)
         })
         
     } catch (error) {
@@ -38,8 +39,8 @@ async function checkIfSearchExists(search, callback, responding = false, callbac
     try {
         console.log("trying to search search")
             //let result_ = 
-            client.set('fuckyou', 'thats what')
-            client.get(search.name)
+            //client.set('fuckyou', 'thats what')
+            //client.get(search.name)
             //Exists avoid replacing
             .then((val) => {
                 console.log('found: '+val)

@@ -82,7 +82,7 @@ const getPagesNumb = async (page) => {
 
 
 
-const collectData = async(name)  => {
+const collectData = async(name, res)  => {
 
 
         //check for key name so search does not repeat
@@ -178,15 +178,17 @@ const collectData = async(name)  => {
         console.log('leads have been processed, proceed with temp search cache')
 
         //RETURN SEARCH ID SO CLIENT CAN BE CHECKING REQUEST STATE
-        const success = (result) =>
+        async function success (result)
         {
+                console.log('returning a response')
+                console.log(res)
                 return res.status(200).json(result)
         }
 
         const failure = (error) =>
         {
         
-                return res.status(200).json(result)
+                res.status(200).json(error)
         }
         
 

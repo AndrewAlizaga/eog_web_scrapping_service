@@ -21,11 +21,11 @@ const searchCase = async (req, res) => {
 	if(!bot || bot.localeCompare!=0){
 		try{
 			console.log('red flag')
-			results = await nuevoDiario(name);
+			results = await nuevoDiario(name, res);
 			//Got threats check on redis if being analyze
 			
 			
-			return res.status(200).json(results)
+			//return res.status(200).json(results)
 		}catch(e){
 			return res.status(503).json({'message': e.toString()})
 		}
