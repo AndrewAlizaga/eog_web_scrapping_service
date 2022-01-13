@@ -188,11 +188,12 @@ const collectData = async(name, res)  => {
         const failure = (error) =>
         {
         
-                res.status(200).json(error)
+                return res.status(200).json(error)
         }
         
 
         //START PROCESSING THREAD ON WORKER
+
         SearchServices.processSearch({'leads': casesList, 'name': name, 'user_key': 'dev', 'status': 0}, true, success, failure)
         
 	

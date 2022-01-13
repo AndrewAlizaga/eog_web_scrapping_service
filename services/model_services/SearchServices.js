@@ -40,9 +40,9 @@ async function checkIfSearchExists(search, callback, responding = false, callbac
         console.log("trying to search search")
             //let result_ = 
             //client.set('fuckyou', 'thats what')
-            //client.get(search.name)
             //Exists avoid replacing
-            .then((val) => {
+            client.get(search.name)
+                        .then((val) => {
                 console.log('found: '+val)
                 console.log('SEARCH ALREADY EXISTS NOTHING TO DO')
                 if(responding){
