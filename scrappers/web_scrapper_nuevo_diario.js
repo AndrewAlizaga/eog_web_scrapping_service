@@ -181,11 +181,11 @@ const collectData = async(name, res)  => {
         async function success (result)
         {
                 console.log('returning a response')
-                console.log(res)
+               // console.log(res)
                 return res.status(200).json(result)
         }
 
-        const failure = (error) =>
+        async function failure (error)
         {
         
                 return res.status(200).json(error)

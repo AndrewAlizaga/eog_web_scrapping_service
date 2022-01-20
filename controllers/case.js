@@ -39,7 +39,7 @@ const searchCase = async (req, res) => {
 			break;
 	
 		//Nuevo diario
-		case 1:
+		case 1:/*
 			try{ 
 		              console.log('pre bot call')
                   		results = await nuevoDiario();
@@ -51,7 +51,7 @@ const searchCase = async (req, res) => {
                                 return res.status(503).json({'message': e.toString()})
                         }                        
 			break;
-		
+		*/
 		case 2:
 			break;
 		
@@ -59,7 +59,7 @@ const searchCase = async (req, res) => {
 			break;
 	
 		default: 
-			return res.status(404).json({'message': 'Scrapper unidentify'})
+			//return res.status(404).json({'message': 'Scrapper unidentify'})
 			break;
 	}
 	
