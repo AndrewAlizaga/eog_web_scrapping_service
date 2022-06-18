@@ -6,7 +6,6 @@ const Lead = require("../db/models/leads")
 //client.set('sample', 1).then(console.log('redis workds')).catch(console.log('redis does not work'))
 
 async function ProcessLead(link, source, status = 0){
-    client.set('stuff', 1223)
     checkIfLeadExists(link, source, status, saveLeadDB)
 }
 
@@ -31,7 +30,6 @@ async function checkIfLeadExists(link, source, status, callback){
     try {
 	console.log("trying to search lead")
         //let result_ = 
-        client.set('fuckyou', 'thats what')
         client.get(link)
         //Exists avoid replacing
         .then((val) => {

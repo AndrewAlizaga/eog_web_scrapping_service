@@ -27,6 +27,8 @@ class Case {
     getTitle(){
         return this.title;
     }
+
+    
 }
 
 module.exports = Case;

@@ -50,6 +50,8 @@ const evaluateFunction = async (page, casesList) => {
                 //a.href
 
         });
+
+
         
         
         return caseArray
@@ -59,6 +61,7 @@ const evaluateFunction = async (page, casesList) => {
       //  SearchServices.
 
         console.log('return case list: ')
+        console.log('case list: ' + casesList)
         console.log(casesList[0])
         return casesList
 }
@@ -84,11 +87,6 @@ const getPagesNumb = async (page) => {
 
 const collectData = async(name, res)  => {
 
-
-        //check for key name so search does not repeat
-
-
-
     const browser = await puppeteer.launch({headless: false, defaultViewport: {
         width:1920,
         height:1080
@@ -96,8 +94,8 @@ const collectData = async(name, res)  => {
 
     const page = await browser.newPage();
 
-      //REMOVE TIMEOUT LIMIT
-      await page.setDefaultNavigationTimeout(0); 
+    //REMOVE TIMEOUT LIMIT
+    await page.setDefaultNavigationTimeout(0); 
 
 
     let casesList = []
@@ -124,8 +122,6 @@ const collectData = async(name, res)  => {
                         console.log(casesList)
                         newCases = await evaluateFunction(page, casesList)
                         //filter links
-                        console.log('list length 1: '+newCases.length)
-
                         newCases = newCases.filter(x => {
                                 if (x !== '' && x !== null) return true
                                 else return false
@@ -165,6 +161,10 @@ const collectData = async(name, res)  => {
         //Store on redis to indicate current analysis for future searches
         //Avoid repeating process and waste resources
 
+        if (casesList.length  == 0) {
+                return res.status(404).json("NO DATA FOUND")
+        }
+
         await casesList.forEach( async x =>  {
 
                 console.log("evaluating: "+x)
@@ -181,7 +181,7 @@ const collectData = async(name, res)  => {
         async function success (result)
         {
                 console.log('returning a response')
-               // console.log(res)
+               // console.log(res)      
                 return res.status(200).json(result)
         }
 

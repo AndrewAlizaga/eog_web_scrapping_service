@@ -41,9 +41,6 @@ async function saveSearch(search, responding = false, callbackSuccess = null, ca
 async function checkIfSearchExists(search, callback, responding = false, callbackSuccess = null, callbackFailure = null){
     try {
         console.log("trying to search search")
-            //let result_ = 
-            //client.set('fuckyou', 'thats what')
-            //Exists avoid replacing
 
             console.log('current search name: ', search.name)
 
