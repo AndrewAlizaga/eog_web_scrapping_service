@@ -66,23 +66,6 @@ const evaluateFunction = async (page, casesList) => {
         return casesList
 }
 
-const getPagesNumb = async (page) => {
-	
-	var pageNumber = await page.evaluate(async () => {
-	
-	var pages = [...document.getElementsByClassName('gsc-cursor-page')]
-	
-	console.log('pages')
-	console.log(pages.length)
-	return pages.length
-	
-	})
-	console.log('p links')
-	console.log(pageNumber)
-	return pageNumber
-
-}
-
 
 
 const collectData = async(name, res)  => {

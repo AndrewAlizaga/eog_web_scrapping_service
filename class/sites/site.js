@@ -30,22 +30,28 @@ class Site {
         this.leads = [];
         this.casesList = []
         this.pagesObj = []
+        this.pageNumberClass = ""
+        this.base_url = ""
+
     }
 
 
     //main scrapping method for the sites, abstract since each site has its ways
     async scrap(){
-        const browser = await puppeteer.launch({headless: false, defaultViewport: {
+        this.browser = await puppeteer.launch({headless: false, defaultViewport: {
             width:1920,
             height:1080
           }});
-    
-        const page = await browser.newPage();
+        
+        this.page = await this.browser.newPage();
+        var context = this.browser.defaultBrowserContext();
+        context.overridePermissions(this.base_url, ["notifications"])
+        console.log("base scrapping")
     
         //REMOVE TIMEOUT LIMIT
-        await page.setDefaultNavigationTimeout(0); 
+        await this.page.setDefaultNavigationTimeout(0); 
     
-        await page.goto(base_url+this.name, {waitUntil: 'networkidle2'});
+        await this.page.goto(this.base_url+this.name, {waitUntil: 'networkidle2'});
     
     }
 
@@ -79,6 +85,20 @@ class Site {
         return added
     }
 
+    async getPagesNumb(){
+        var pageNumber = await this.page.evaluate(async () => {
+	
+            var pages = [...document.getElementsByClassName(this.pageNumberClass)]
+            
+            console.log('pages')
+            console.log(pages.length)
+            return pages.length
+            
+            })
+            console.log('p links')
+            console.log(pageNumber)
+            return pageNumber
+    }
 }
 
 module.exports = Site

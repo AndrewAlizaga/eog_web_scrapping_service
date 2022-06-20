@@ -5,25 +5,31 @@ const {CaseSources} = require("../../utils/Enums");
 const {convertStringToUrlQuery} = require("../../utils/parseHelper");
 const Site = require("./site")
 //Web scrapper functions
-const pageClick = require("../../services/scrapper/click")
+const pageClick = require("../../services/scrapper/click");
+const { timingSafeEqual } = require("crypto");
+const { error } = require("console");
 
 class NuevoDiario extends Site {
     constructor(name, date, type) {
         super(name, date, type);
+        this.pageNumberClass = 'gsc-cursor-page'
+        this.base_url = "https://www.elnuevodiario.com.ni/busqueda/?q="
     }
 
-
+    
     async scrap(){
 
-    super.scrap()
+    await super.scrap()
 
     //Get  dimensions
-    let pagesLinks = await getPagesNumb(page);
+    let pagesLinks = await super.getPagesNumb();
+
+
     
 	console.log('obtained links')
 	console.log(pagesLinks)
 	
-	for(i=0;i<pagesLinks;i++){
+	for(var i=0;i<pagesLinks;i++){
 		console.log("bucle run: "+i+" from: "+pagesLinks)
 		if(i!=0){
                         let newCases = []
@@ -75,7 +81,7 @@ class NuevoDiario extends Site {
         //Avoid repeating process and waste resources
 
         if (this.casesList.length  == 0) {
-                return res.status(404).json("NO DATA FOUND")
+                return new Error("not found")
         }
 
         await this.casesList.forEach( async x =>  {

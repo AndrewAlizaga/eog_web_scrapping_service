@@ -25,7 +25,14 @@ const searchCase = async (req, res) => {
 			var scrapeper = Site
 			scrapeper = new nuevoDiario(name)
 
-			print.log(scrapeper.name)
+			var response, error = scrapeper.scrap()
+
+			if (error != null) {
+				return res.status(503).json({'message': e.toString()})
+
+			}
+			
+			console.log(scrapeper.name)
 			//CODE GOES HERE
 
 			
