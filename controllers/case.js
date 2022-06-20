@@ -1,6 +1,6 @@
 //Bots
-const nuevoDiario = require("../scrappers/web_scrapper_nuevo_diario")
-
+const nuevoDiario = require("../class/sites/nuevoDiario")
+const Site = require("../class/sites/site")
 
 
 //Search case controller
@@ -20,9 +20,14 @@ const searchCase = async (req, res) => {
 	
 	if(!bot || bot.localeCompare!=0){
 		try{
-			results = await nuevoDiario(name, res);
+			//results = await nuevoDiario(name, res);
 			//Got threats check on redis if being analyze
-			
+			var scrapeper = Site
+			scrapeper = new nuevoDiario(name)
+
+			print.log(scrapeper.name)
+			//CODE GOES HERE
+
 			
 			//return res.status(200).json(results)
 		}catch(e){
