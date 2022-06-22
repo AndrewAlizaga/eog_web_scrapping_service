@@ -6,6 +6,8 @@ const {convertStringToUrlQuery} = require("../../utils/parseHelper");
 const Site = require("./site")
 //Web scrapper functions
 const pageClick = require("../../services/scrapper/click");
+const LeadServices = require("../../services/model_services/LeadServices");
+const SearchServices = require("../../services/model_services/SearchServices");
 const { timingSafeEqual } = require("crypto");
 const { error } = require("console");
 
@@ -24,59 +26,84 @@ class NuevoDiario extends Site {
     //Get  dimensions
     let pagesLinks = await super.getPagesNumb();
 
-
-    
 	console.log('obtained links')
 	console.log(pagesLinks)
-	
-	for(var i=0;i<pagesLinks;i++){
-		console.log("bucle run: "+i+" from: "+pagesLinks)
-		if(i!=0){
-                        let newCases = []
-			//simulate page click
-                        console.log('about to click')
-                        await pageClick(page, i)
-                        //get data
-                        console.log('debugging this.casesList prior sending')
-                        console.log(this.casesList)
-                        newCases = await evaluateFunction(page, this.casesList)
-                        //filter links
-                        newCases = newCases.filter(x => {
-                                if (x !== '' && x !== null) return true
-                                else return false
-                        })
-                        console.log('list length 2: '+newCases.length)
 
-                        this.casesList = this.casesList.concat(newCases)
-                        console.log(this.casesList)
-                        console.log('list length: '+this.casesList.length)
-                        console.log("end of evaluateFunction")
-		}else{
-                        //get data
-                        let newCases = []
-                        console.log('debugging this.casesList prior sending')
-                        console.log(this.casesList)
-                        newCases = await evaluateFunction(page, this.casesList)
-                        //filter links
-                        console.log('list length 1: '+newCases.length)
+        if (pagesLinks == 0) {
+                //get data
+                let newCases = []
+                console.log('debugging this.casesList prior sending')
+                console.log(this.casesList)
+                newCases = await this.evaluateFunction(this.page, this.casesList)
+                //filter links
+                console.log('list length 1: '+newCases.length)
 
-                        newCases = newCases.filter(x => {
-                                if (x !== '' && x !== null) return true
-                                else return false
-                        })
+                newCases = newCases.filter(x => {
+                        if (x !== '' && x !== null) return true
+                        else return false
+                })
 
-                        console.log('list length 2: '+newCases.length)
+                console.log('list length 2: '+newCases.length)
+                console.log("cases")
+                console.log(newCases)
+                this.casesList = this.casesList.concat(newCases)
+                console.log(this.casesList)
+        }else {
+                for(let i=0;i<pagesLinks;i++){
+                        console.log('on the bucle')
+                        console.log("bucle run: "+i+" from: "+pagesLinks)
+                        if(i!=0){
+                                let newCases = []
+                                //simulate page click
+                                console.log('about to click')
+                                await pageClick(this.page, i)
+                                //get data
+                                console.log('debugging this.casesList prior sending')
+                                console.log(this.casesList)
+                                newCases = await evaluateFunction(this.page, this.casesList)
+                                //filter links
+                                newCases = newCases.filter(x => {
+                                        if (x !== '' && x !== null) return true
+                                        else return false
+                                })
+                                console.log('list length 2: '+newCases.length)
+        
+                                this.casesList = this.casesList.concat(newCases)
+                                console.log(this.casesList)
+                                console.log('list length: '+this.casesList.length)
+                                console.log("end of evaluateFunction")
+                        }else{
+                                //get data
+                                let newCases = []
+                                console.log('debugging this.casesList prior sending')
+                                console.log(this.casesList)
+                                newCases = await evaluateFunction(this.page, this.casesList)
+                                //filter links
+                                console.log('list length 1: '+newCases.length)
+        
+                                newCases = newCases.filter(x => {
+                                        if (x !== '' && x !== null) return true
+                                        else return false
+                                })
+        
+                                console.log('list length 2: '+newCases.length)
+                                console.log("cases")
+                                console.log(newCases)
+                                this.casesList = this.casesList.concat(newCases)
+                                console.log('list length 3: '+this.casesList.length)
+                                console.log(this.casesList)
+                                console.log('index: '+i+' finished')
+                        }
                         
-                        this.casesList = this.casesList.concat(newCases)
-                        console.log('list length 3: '+this.casesList.length)
-                        console.log(this.casesList)
-                        console.log('index: '+i+' finished')
                 }
-		
-	}
+        
+        }
+	
+	
 
 
-
+        console.log("out of the bucle")
+        console.log(this.casesList)
         //Store on redis to indicate current analysis for future searches
         //Avoid repeating process and waste resources
 
@@ -101,25 +128,66 @@ class NuevoDiario extends Site {
         {
                 console.log('returning a response')
                // console.log(res)      
-                return res.status(200).json(result)
+                return result, null
         }
 
         async function failure (error)
         {
-        
-                return res.status(200).json(error)
+                console.log(error)
+                return null, error
         }
         
 
         //START PROCESSING THREAD ON WORKER
 
-        SearchServices.processSearch({'leads': this.casesList, 'name': name, 'user_key': 'dev', 'status': 0}, true, success, failure)
+        SearchServices.processSearch({'leads': this.casesList, 'name': this.name, 'user_key': 'dev', 'status': 0}, "nuevodiario", true, success, failure)
         
         //nuevo diario logic
 
         
 
     }
+
+    async evaluateFunction(page, casesList){
+	
+        console.log('array prior page dom')
+        console.log(casesList)
+        let caseArray = ['']
+
+	casesList = await this.page.evaluate(async (caseArray) => {
+
+        console.log('about to search links')
+        //Array to store the cases links
+
+        caseArray = Array.from(document.getElementsByTagName('a'), (a) =>  {
+
+                console.log('inspecting element')
+                console.log(a.className)
+
+                if(a.className == 'gs-title' && a.href !== '' && a.href !== null){
+                        console.log('returning a.href')
+                        console.log(a.href)
+                        return a.href
+                }
+
+                //a.href
+
+        });
+
+
+        
+        
+        return caseArray
+
+	}, caseArray)
+
+      //  SearchServices.
+
+        console.log('return case list: ')
+        console.log('case list: ' + casesList)
+        console.log(casesList[0])
+        return casesList
+}
 
 }
 

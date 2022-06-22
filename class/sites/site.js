@@ -85,6 +85,8 @@ class Site {
         return added
     }
 
+    async evaluateFunction(page, casesList){}
+
     async getPagesNumb(){
         var pageNumber = await this.page.evaluate(async () => {
 	

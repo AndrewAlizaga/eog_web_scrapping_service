@@ -3,19 +3,21 @@ const Search = require("../db/models/search")
 const res = require("express/lib/response")
 
 
-async function processSearch(search, responding, callbackSuccess, callbackFailure){
+async function processSearch(search, site, responding, callbackSuccess, callbackFailure){
     let current_date = new Date()
     //const search_ = new Search(search.leads, search.name, search.user_key, search.status, current_date)
     console.log('received search: ', search)
-    checkIfSearchExists(search, saveSearch, responding, callbackSuccess, callbackFailure)
+    checkIfSearchExists(search, site, saveSearch, responding, callbackSuccess, callbackFailure)
 }
 
-async function saveSearch(search, responding = false, callbackSuccess = null, callbackFailure = null){
+async function saveSearch(search, siteKey, responding = false, callbackSuccess = null, callbackFailure = null){
     try {
 
         //let load = JSONT
         console.log('search-key-name '+search.name)
         var dumped = JSON.stringify(search)
+        console.log('search-key-name '+search.name)
+
         //console.log(dumped) 
 
         client.setEx(search.name, 120, dumped)

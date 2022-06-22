@@ -14,8 +14,6 @@ function findName(sample){
     }
 
 //    console.log('Data read')
-
-    let 
 } 
 
 
