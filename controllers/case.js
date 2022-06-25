@@ -32,15 +32,14 @@ const searchCase = async (req, res) => {
 
 			}
 			
-			console.log(scrapeper.name)
-			//CODE GOES HERE
+			return res.json(response).status(200)
 
-			
-			//return res.status(200).json(results)
 		}catch(e){
 			return res.status(503).json({'message': e.toString()})
 		}
 	}
+
+	var scrapeper = Site
 
 
 	switch(bot){
@@ -50,7 +49,19 @@ const searchCase = async (req, res) => {
 			break;
 	
 		//Nuevo diario
-		case 1:/*
+		case 1:
+			
+			scrapeper = new nuevoDiario(name)
+
+			var response, error = scrapeper.scrap()
+
+			if (error != null) {
+				return res.status(503).json({'message': e.toString()})
+
+			}
+			
+			return res.json(response).status(200)
+		/*
 			try{ 
 		              console.log('pre bot call')
                   		results = await nuevoDiario();
