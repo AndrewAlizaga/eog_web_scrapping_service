@@ -8,6 +8,7 @@ const searchCase = async (req, res) => {
 
 	
 	let results = null
+	var scrapeper = Site
 
 	let bot = 1
 
@@ -22,17 +23,16 @@ const searchCase = async (req, res) => {
 		try{
 			//results = await nuevoDiario(name, res);
 			//Got threats check on redis if being analyze
-			var scrapeper = Site
 			scrapeper = new nuevoDiario(name)
 
-			var response, error = scrapeper.scrap()
+			results, error = scrapeper.scrap()
 
 			if (error != null) {
 				return res.status(503).json({'message': e.toString()})
 
 			}
 			
-			return res.json(response).status(200)
+			return res.json(results).status(200)
 
 		}catch(e){
 			return res.status(503).json({'message': e.toString()})
@@ -52,15 +52,14 @@ const searchCase = async (req, res) => {
 		case 1:
 			
 			scrapeper = new nuevoDiario(name)
-
-			var response, error = scrapeper.scrap()
+			results, error = scrapeper.scrap()
 
 			if (error != null) {
 				return res.status(503).json({'message': e.toString()})
 
 			}
 			
-			return res.json(response).status(200)
+			return res.json(results).status(200)
 		/*
 			try{ 
 		              console.log('pre bot call')
