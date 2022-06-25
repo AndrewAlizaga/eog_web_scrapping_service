@@ -7,9 +7,11 @@ async function processSearch(search, site, responding, callbackSuccess, callback
     let current_date = new Date()
     //const search_ = new Search(search.leads, search.name, search.user_key, search.status, current_date)
     console.log('received search: ', search)
-    checkIfSearchExists(search, site, saveSearch, responding, callbackSuccess, callbackFailure)
+    RedisLeadManagement(search, site, saveSearch, responding, callbackSuccess, callbackFailure)
 }
 
+
+//CODE HERE
 async function saveSearch(search, siteKey, responding = false, callbackSuccess = null, callbackFailure = null){
     try {
 
@@ -40,7 +42,7 @@ async function saveSearch(search, siteKey, responding = false, callbackSuccess =
     }
 }
 
-async function checkIfSearchExists(search, callback, responding = false, callbackSuccess = null, callbackFailure = null){
+async function RedisLeadManagement(search, callback, responding = false, callbackSuccess = null, callbackFailure = null){
     try {
         console.log("trying to search search")
 

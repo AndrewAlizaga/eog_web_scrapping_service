@@ -140,7 +140,7 @@ class NuevoDiario extends Site {
         //START PROCESSING THREAD ON WORKER
 
         //Process serach function uses promises to respond to the main thread
-        SearchServices.processSearch({'leads': this.casesList, 'name': this.name, 'user_key': 'dev', 'status': 0}, "nuevodiario", true, success, failure)
+        SearchServices.processSearch({'leads': this.casesList, 'name': this.name+'-nuevodiario', 'user_key': 'dev', 'status': 0}, "nuevodiario", true, success, failure)
         
 
     }
