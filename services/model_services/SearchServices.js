@@ -22,7 +22,7 @@ async function saveSearch(search, siteKey, responding = false, callbackSuccess =
 
         //console.log(dumped) 
 
-        client.setEx(search.name, 120, dumped)
+        client.setEx(search.name+siteKey, 120, dumped)
         .then((x) => {
             console.log('success')
             if(responding){
