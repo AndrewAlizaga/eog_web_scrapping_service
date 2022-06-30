@@ -4,7 +4,7 @@ const Site = require("../class/sites/site")
 
 
 //Search case controller
-const searchCase = async (req, res) => {
+const searchCase = async (name) => {
 
 	
 	let results = null

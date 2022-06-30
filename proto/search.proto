@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package search;
+
+option go_package = "github.com/AndrewAlizaga/eog_protos;searchpb";
+
+
+enum SearchStatus {
+    UNKNOWN = 0;
+    FINISHED = 1;
+    COMPLETED = 2;
+    FAILURE = 3;
+    PENDING = 4;
+    EXISTING = 5;
+}
+
+message Search {
+    string id = 1;
+    string name = 2;
+    repeated string leads = 3;
+}
+
+
+message SearchRequest {
+    string caseName = 1;
+    string searchName = 2;
+    string apiKey = 3;
+}
+
+message SearchResponse {
+    SearchStatus searchStatus = 1;
+    Search search = 2; 
+}
+
+// SearchService ...
+service SearchService {
+
+    // Get search
+    rpc GetSearch (Search) returns (SearchResponse){};
+
+    // Post search
+    rpc PostSearch (Search) returns (SearchResponse){};
+}

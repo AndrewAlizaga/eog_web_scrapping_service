@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@grpc/grpc-js": "^1.6.7",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "grpc-reflection-js": "^0.1.2",
     "node": "^17.3.0",
     "nodemon": "^2.0.13",
     "puppeteer": "^5.5.0",

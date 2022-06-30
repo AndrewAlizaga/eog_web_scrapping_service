@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package account;
+
+
+option go_package = "github.com/AndrewAlizaga/eog_protos;accountpb";
+
+enum RequestStatus {
+    UNKNOWN = 0;
+    FINISHED = 1;
+    SUCCESS = 2;
+    FAILURE = 3;
+    PENDING = 4;
+}
+
+message Account {
+    string id = 1;
+    string name = 2;
+    string password = 3;
+    string email = 4;
+}
+
+message UpdateAccountRequest {
+    string id = 1;
+    string name = 2;
+    string password = 3;
+    string email = 4;
+}
+
+message PostAccountRequest {
+
+    string name = 1;
+    string password = 2;
+    string email = 3;
+}
+
+message GetAccountRequest {
+    string accountId = 1;
+}
+
+message GetAccountByEmailRequest{
+    string email = 1;
+}
+
+message AccountResponse {
+    Account account = 1;
+    RequestStatus status = 2;
+}
+
