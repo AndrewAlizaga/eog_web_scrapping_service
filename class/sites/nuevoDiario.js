@@ -110,6 +110,8 @@ class NuevoDiario extends Site {
                 return new Error("not found")
         }
 
+        //IMPORTANT FOR ASYNC REVISION
+        /*
         await this.casesList.forEach( async x =>  {
 
                 console.log("evaluating: "+x)
@@ -117,7 +119,7 @@ class NuevoDiario extends Site {
                 var source = 0
                 LeadServices.ProcessLead(x, source)
               
-        });       
+        });     */  
     
 
         console.log('leads have been processed, proceed with temp search cache')
@@ -127,21 +129,44 @@ class NuevoDiario extends Site {
         {
                 console.log('returning a response')
                // console.log(res)      
-                return result, null
+                return {result, error: null}
         }
 
         async function failure (error)
         {
                 console.log(error)
-                return null, error
+                return {result: null, error}
         }
         
 
         //START PROCESSING THREAD ON WORKER
 
         //Process serach function uses promises to respond to the main thread
-        SearchServices.processSearch({'leads': this.casesList, 'name': this.name+'-nuevodiario', 'user_key': 'dev', 'status': 0}, "nuevodiario", true, success, failure)
+
         
+        //continue un sync job
+
+        //SearchServices.processSearch({'leads': this.casesList, 'name': this.name+'-nuevodiario', 'user_key': 'dev', 'status': 0}, "nuevodiario", true, success, failure)
+        
+        console.log("RETURNING SYNC RESPONSE")
+
+        var scrappingResponse = {searchStatus: 2, 
+                search: {
+                id: 1,
+                name: this.name+'-nuevodiario',
+                leads: this.casesList
+          }}
+
+          console.log("SCRAPPED")
+        console.log(scrappingResponse)
+
+        var fullResponse = {scrappingResponse, error: null}
+
+        console.log('fullresponse')
+        console.log(fullResponse)
+        //return sync response
+        return fullResponse
+
 
     }
 

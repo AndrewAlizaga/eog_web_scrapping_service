@@ -1,9 +1,5 @@
 syntax = "proto3";
 
-package search;
-
-option go_package = "github.com/AndrewAlizaga/eog_protos;searchpb";
-
 
 enum SearchStatus {
     UNKNOWN = 0;
@@ -34,10 +30,6 @@ message SearchResponse {
 
 // SearchService ...
 service SearchService {
-
-    // Get search
-    rpc GetSearch (Search) returns (SearchResponse){};
-
     // Post search
     rpc PostSearch (Search) returns (SearchResponse){};
 }

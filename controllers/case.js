@@ -1,4 +1,5 @@
 //Bots
+const { error } = require("console")
 const nuevoDiario = require("../class/sites/nuevoDiario")
 const Site = require("../class/sites/site")
 
@@ -11,12 +12,6 @@ const searchCase = async (name) => {
 	var scrapeper = Site
 
 	let bot = 1
-
-	/*if(req.body){
-		bot = req.body.botId?req.body.botId:0
-	}*/
-	
-	var name = req.query.name?req.query.name:1
 	
 	
 	if(!bot || bot.localeCompare!=0){
@@ -25,17 +20,23 @@ const searchCase = async (name) => {
 			//Got threats check on redis if being analyze
 			scrapeper = new nuevoDiario(name)
 
-			results, error = scrapeper.scrap()
+			 var {scrappingResponse, error} = await scrapeper.scrap()
 
+			console.log("POST SCAPPER CALL")
 			if (error != null) {
-				return res.status(503).json({'message': e.toString()})
+//				return res.status(503).json({'message': e.toString()})
+				return null, new Error("INTERNAL ERROR: "+error.toString())
 
 			}
-			
-			return res.json(results).status(200)
+			console.log("results")
+			console.log(scrappingResponse)
+			//return res.json(results).status(200)
+			return {scrappingResponse, error}
+
 
 		}catch(e){
-			return res.status(503).json({'message': e.toString()})
+			//return res.status(503).json({'message': e.toString()})
+			return null, new Error("INTERNAL ERROR: "+e.toString())
 		}
 	}
 

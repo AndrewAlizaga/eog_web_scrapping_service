@@ -42,21 +42,21 @@ async function saveSearch(search, siteKey, responding = false, callbackSuccess =
     }
 }
 
-async function RedisLeadManagement(search, callback, responding = false, callbackSuccess = null, callbackFailure = null){
+async function RedisLeadManagement(search, site, callback, responding = false, callbackSuccess = null, callbackFailure = null){
     try {
         console.log("trying to search search")
 
             console.log('current search name: ', search.name)
 
-            client.get(search.name)
+            client.get(search.name+site)
                         .then((val) => {
 
                             if(val==null){
                                 console.log('did not found related search, proceed saving process')
                                 if(responding){
-                                    callback(search, true, callbackSuccess, callbackFailure)
+                                    callback(search, site, true, callbackSuccess, callbackFailure)
                                 }else{
-                                    callback(search)
+                                    callback(search, site)
                     
                                 }
                             }else{
@@ -73,9 +73,9 @@ async function RedisLeadManagement(search, callback, responding = false, callbac
             .catch((err)=> {
                 console.log('did not found related search, proceed saving process')
                 if(responding){
-                    callback(search, true, callbackSuccess, callbackFailure)
+                    callback(search, site, true, callbackSuccess, callbackFailure)
                 }else{
-                    callback(search)
+                    callback(search, site)
     
                 }
                 
