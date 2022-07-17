@@ -17,14 +17,14 @@ var packageDefinition = protoLoader.loadSync(PROTO_SEARCH_PATH, options);
 const SearchService = grpc.loadPackageDefinition(packageDefinition).SearchService;
 
 const client = new SearchService(
-  "localhost:50051",
+  process.env.EOG_WEB_SCRAPPER_ADDR_PORT,
   grpc.credentials.createInsecure()
 );
 
 
 client.PostSearch({
   id: 1,
-  name: "jose gutierrez",
+  name:  "jose gutierrez",
   leads: []
 }, (err, data) => {
 

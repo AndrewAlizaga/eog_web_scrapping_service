@@ -5,27 +5,43 @@ client.connect()
 
 
 //GRPC DEPENDENCIES
-const PROTO_SEARCH_PATH = './proto/search.proto';
+const PROTO_SEARCH_PATH = __dirname + '/proto/search.proto';
 const {v4:uuidv4} = require("uuid")
 
 const {searchCase} = require("./controllers/case")
 
 const grpc = require("@grpc/grpc-js")
-const grpcReflection = require("grpc-reflection-js")
 var protoLoader = require('@grpc/proto-loader');
 
-const options = {
+var EOG_WEB_SCRAPPER_ADDR_PORT = process.env.EOG_WEB_SCRAPPER_ADDR_PORT
+
+
+const options =  {keepCase: true,
   longs: String,
-  oneofs: true,
-  keepCase: true,
   enums: String,
   defaults: true,
-};
+  oneofs: true
+ }
 
 var packageDefinition = protoLoader.loadSync(PROTO_SEARCH_PATH, options);
-const searchProto = grpc.loadPackageDefinition(packageDefinition);
+const search = grpc.loadPackageDefinition(packageDefinition).search;
 
 var server = new grpc.Server();
+
+server.addService(search.SearchService.service, {
+  PostSearch: PostSearch
+});
+
+
+server.bindAsync(
+  EOG_WEB_SCRAPPER_ADDR_PORT.toString(),
+  grpc.ServerCredentials.createInsecure(),
+  (error, port) => {
+    console.log("GRPC Server running at http://127.0.0.1:50051");
+    server.start();
+  }
+);
+
 
 async function PostSearch (call, callback) {
 
@@ -60,19 +76,8 @@ async function PostSearch (call, callback) {
   callback(null, result)
 }
 
-server.addService(searchProto.SearchService.service, {
-  PostSearch: PostSearch
-});
 
 
-server.bindAsync(
-  "127.0.0.1:50051",
-  grpc.ServerCredentials.createInsecure(),
-  (error, port) => {
-    console.log("GRPC Server running at http://127.0.0.1:50051");
-    server.start();
-  }
-);
 
 
 

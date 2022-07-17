@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+package search;
+
+option go_package = "github.com/AndrewAlizaga/eog_protos/pkg/search;searchv1";
+
 
 enum SearchStatus {
     UNKNOWN = 0;
@@ -10,26 +14,40 @@ enum SearchStatus {
     EXISTING = 5;
 }
 
+// Search model.
 message Search {
+    // @inject_tag: json:"id" bson:"id"
     string id = 1;
+    // @inject_tag: json:"name" bson:"name"
     string name = 2;
+    // @inject_tag: json:"leads" bson:"leads"
     repeated string leads = 3;
 }
 
-
+//  SearchRequest model.
 message SearchRequest {
+    // @inject_tag: json:"case_name" bson:"case_name"
     string caseName = 1;
+    // @inject_tag: json:"search_name" bson:"search_name"
     string searchName = 2;
+    // @inject_tag: json:"api_key" bson:"api_key"
     string apiKey = 3;
 }
 
+// SearchResponse model.
 message SearchResponse {
+    // @inject_tag: json:"search_status" bson:"search_status"
     SearchStatus searchStatus = 1;
+    // @inject_tag: json:"search" bson:"search"
     Search search = 2; 
 }
 
 // SearchService ...
 service SearchService {
+
+    // Get search
+    rpc GetSearch (Search) returns (SearchResponse){};
+
     // Post search
     rpc PostSearch (Search) returns (SearchResponse){};
 }
