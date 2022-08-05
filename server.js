@@ -15,7 +15,6 @@ var protoLoader = require('@grpc/proto-loader');
 
 var EOG_WEB_SCRAPPER_ADDR_PORT = process.env.EOG_WEB_SCRAPPER_ADDR_PORT
 
-
 const options =  {keepCase: true,
   longs: String,
   enums: String,
@@ -37,7 +36,7 @@ server.bindAsync(
   EOG_WEB_SCRAPPER_ADDR_PORT.toString(),
   grpc.ServerCredentials.createInsecure(),
   (error, port) => {
-    console.log("GRPC Server running at http://127.0.0.1:50051");
+    console.log("GRPC Server running at http://127.0.0.1:5051");
     server.start();
   }
 );
@@ -75,50 +74,3 @@ async function PostSearch (call, callback) {
 
   callback(null, result)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-const express = require("express")
-
-//activate env var
-require("dotenv").config()
-const port = process.env.PORT || 8000
-
-//Router
-const router = require('./routes')
-require('dotenv').config()
-
-//client.connect()
-client.set('special', 123)
-
-const app = express()
-//app.redisClient = client
-
-app.use(express.json())
-
-app.use('/api', router)
-
-//testing
-app.get("/", (req, res) => {
-  //  client.set('initer', 123)
-
-    return res.status(200).json('I AM ALIVE')
-})
-
-
-//listen at port
-app.listen(port, (req) => {
-    console.log(`rocking and rolling at ${port}`)
-})
-*/
