@@ -19,7 +19,7 @@ ENV EOG_ENGINE_REDIS_HOST=redis-16059.c244.us-east-1-2.ec2.cloud.redislabs.com
 ENV EOG_ENGINE_REDIS_PASS=4QVftuOrgnxNxHUynyBZGo2wfxLCzK3v
 ENV EOG_ENGINE_REDIS_NAME=eog_engine
 ENV REDISCLOUD_URL=redis-16059.c244.us-east-1-2.ec2.cloud.redislabs.com:16059
-EXPOSE 5051
+EXPOSE 50051
 
 COPY . . 
 

@@ -35,8 +35,8 @@ server.addService(search.SearchService.service, {
 server.bindAsync(
   EOG_WEB_SCRAPPER_ADDR_PORT.toString(),
   grpc.ServerCredentials.createInsecure(),
-  (error, port) => {
-    console.log("GRPC Server running at http://127.0.0.1:5051");
+  () => {
+    console.log("GRPC Server running at http://127.0.0.1:50051");
     server.start();
   }
 );
