@@ -13,7 +13,7 @@ const {searchCase} = require("./controllers/case")
 const grpc = require("@grpc/grpc-js")
 var protoLoader = require('@grpc/proto-loader');
 
-var EOG_WEB_SCRAPPER_ADDR_PORT = process.env.EOG_WEB_SCRAPPER_ADDR_PORT
+var EOG_WEB_SCRAPPER_ADDR = process.env.EOG_WEB_SCRAPPER_ADDR
 
 const options =  {keepCase: true,
   longs: String,
@@ -31,12 +31,12 @@ server.addService(search.SearchService.service, {
   PostSearch: PostSearch
 });
 
-
+var syncAddres = EOG_WEB_SCRAPPER_ADDR.toString()+`:${process.env.PORT || 8080}`;
 server.bindAsync(
-  EOG_WEB_SCRAPPER_ADDR_PORT.toString(),
+  syncAddres,
   grpc.ServerCredentials.createInsecure(),
   () => {
-    console.log("GRPC Server running at http://127.0.0.1:50051");
+    console.log("GRPC Server running at "+syncAddres);
     server.start();
   }
 );
