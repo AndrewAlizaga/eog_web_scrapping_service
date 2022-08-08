@@ -4,20 +4,27 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@grpc/grpc-js": "^1.6.7",
+    "body-parser": "^1.20.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "nodejs": "0.0.0",
+    "grpc-reflection-js": "^0.1.2",
+    "node": "^17.3.0",
     "nodemon": "^2.0.13",
-    "npm": "^8.0.0",
-    "puppeteer": "^5.5.0"
+    "protocol-buffers-encodings": "^1.1.1",
+    "puppeteer": "^5.5.0",
+    "redis": "^4.0.1",
+    "save": "^2.5.0",
+    "url": "^0.11.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "diario": "nodemon ./scrappers/web_scrapper_nuevo_diario.js",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "client": "node client.js"
   },
   "author": "Andrew Alizaga",
   "license": "ISC"
