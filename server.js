@@ -3,17 +3,20 @@ let client = require("./services/db/redis/index");
 const { error } = require("console");
 client.connect()
 
+//HTTP DEPENDENCIES
+const express = require("express")
+const app = express()
+const router = require('./routes')
+
+
 
 //GRPC DEPENDENCIES
 const PROTO_SEARCH_PATH = __dirname + '/proto/search.proto';
 const {v4:uuidv4} = require("uuid")
-
 const {searchCase} = require("./controllers/case")
 
 const grpc = require("@grpc/grpc-js")
 var protoLoader = require('@grpc/proto-loader');
-
-var EOG_WEB_SCRAPPER_ADDR = process.env.EOG_WEB_SCRAPPER_ADDR
 
 const options =  {keepCase: true,
   longs: String,
@@ -31,15 +34,43 @@ server.addService(search.SearchService.service, {
   PostSearch: PostSearch
 });
 
-var syncAddres = EOG_WEB_SCRAPPER_ADDR.toString()+`:${process.env.PORT || 8080}`;
-server.bindAsync(
-  syncAddres,
-  grpc.ServerCredentials.createInsecure(),
-  () => {
-    console.log("GRPC Server running at "+syncAddres);
-    server.start();
-  }
-);
+
+async function startHttp(){
+  
+  app.use(express.json())
+
+  app.use('/api', router)
+  
+  //testing
+  app.get("/", (req, res) => {
+    //  client.set('initer', 123)
+  
+      return res.status(200).json('I AM ALIVE')
+  })
+  
+  
+  //listen at port
+  var httpPort = process.env.PORT || 8080
+  app.listen(httpPort, (req) => {
+      console.log(`HTTP Server rocking and rolling at ${httpPort}`)
+  })
+
+}
+
+async function startGrpc(){
+
+  var EOG_WEB_SCRAPPER_ADDR = process.env.EOG_WEB_SCRAPPER_ADDR || '127.0.0.1'
+
+  var syncAddres = EOG_WEB_SCRAPPER_ADDR.toString()+`:${process.env.EOG_ENGINE_GRPC_PORT || 50051}`;
+  server.bindAsync(
+    syncAddres,
+    grpc.ServerCredentials.createInsecure(),
+    () => {
+      console.log("GRPC Service running at "+syncAddres);
+      server.start();
+    }
+  );
+}
 
 
 async function PostSearch (call, callback) {
@@ -74,3 +105,8 @@ async function PostSearch (call, callback) {
 
   callback(null, result)
 }
+
+
+
+startGrpc()
+startHttp()
