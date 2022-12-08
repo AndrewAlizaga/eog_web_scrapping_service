@@ -49,48 +49,41 @@ class NuevoDiario extends Site {
                 console.log(this.casesList)
         }else {
                 for(let i=0;i<pagesLinks;i++){
-                        console.log('on the bucle')
                         console.log("bucle run: "+i+" from: "+pagesLinks)
                         if(i!=0){
                                 let newCases = []
-                                //simulate page click
                                 console.log('about to click')
                                 await pageClick(this.page, i)
-                                //get data
-                                console.log('debugging this.casesList prior sending')
-                                console.log(this.casesList)
                                 newCases = await evaluateFunction(this.page, this.casesList)
-                                //filter links
+
+                                console.log('cases pre filter: '+newCases.length)
+                                //case
                                 newCases = newCases.filter(x => {
-                                        if (x !== '' && x !== null) return true
-                                        else return false
+                                        (x !== '' && x !== null) ? true : false
+                                        
                                 })
-                                console.log('list length 2: '+newCases.length)
+                                console.log('cases post filter: '+newCases.length)
         
                                 this.casesList = this.casesList.concat(newCases)
                                 console.log(this.casesList)
-                                console.log('list length: '+this.casesList.length)
-                                console.log("end of evaluateFunction")
+                                console.log('total cases: '+this.casesList.length)
                         }else{
                                 //get data
                                 let newCases = []
                                 console.log('debugging this.casesList prior sending')
-                                console.log(this.casesList)
+                                console.log('total cases: '+this.casesList)
                                 newCases = await evaluateFunction(this.page, this.casesList)
                                 //filter links
-                                console.log('list length 1: '+newCases.length)
+                                console.log('cases pre filter: '+newCases.length)
         
                                 newCases = newCases.filter(x => {
-                                        if (x !== '' && x !== null) return true
-                                        else return false
+                                        (x !== '' && x !== null)?true:false
                                 })
         
-                                console.log('list length 2: '+newCases.length)
-                                console.log("cases")
-                                console.log(newCases)
+                                console.log('cases post filter : '+newCases.length)
+
                                 this.casesList = this.casesList.concat(newCases)
-                                console.log('list length 3: '+this.casesList.length)
-                                console.log(this.casesList)
+                                console.log('total cases: '+this.casesList.length)
                                 console.log('index: '+i+' finished')
                         }
                         
@@ -101,54 +94,18 @@ class NuevoDiario extends Site {
 	
 
 
-        console.log("out of the bucle")
-        console.log(this.casesList)
+        console.log("out of the cases obtain bucle")
+        console.log('cases: '+this.casesList)
         //Store on redis to indicate current analysis for future searches
         //Avoid repeating process and waste resources
+
+        console.log("redis yet to be implemented")
 
         if (this.casesList.length  == 0) {
                 return new Error("not found")
         }
 
-        //IMPORTANT FOR ASYNC REVISION
-        /*
-        await this.casesList.forEach( async x =>  {
-
-                console.log("evaluating: "+x)
-                //Check if leads exists already
-                var source = 0
-                LeadServices.ProcessLead(x, source)
-              
-        });     */  
-    
-
         console.log('leads have been processed, proceed with temp search cache')
-
-        //RETURN SEARCH ID SO CLIENT CAN BE CHECKING REQUEST STATE
-        async function success (result)
-        {
-                console.log('returning a response')
-               // console.log(res)      
-                return {result, error: null}
-        }
-
-        async function failure (error)
-        {
-                console.log(error)
-                return {result: null, error}
-        }
-        
-
-        //START PROCESSING THREAD ON WORKER
-
-        //Process serach function uses promises to respond to the main thread
-
-        
-        //continue un sync job
-
-        //SearchServices.processSearch({'leads': this.casesList, 'name': this.name+'-nuevodiario', 'user_key': 'dev', 'status': 0}, "nuevodiario", true, success, failure)
-        
-        console.log("RETURNING SYNC RESPONSE")
 
         var scrappingResponse = {searchStatus: 2, 
                 search: {
