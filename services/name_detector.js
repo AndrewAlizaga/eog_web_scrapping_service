@@ -7,12 +7,13 @@ function findName(sample){
     
     const readFile = util.promisify(fs.readFile)
     
-    const data = await readFile(path.join(__dirname, '../') + '/utils/name_file.txt');
+    const data = readFile(path.join(__dirname, '../') + '/utils/name_file.txt');
 
     if(!data){
         return Error('file read failed')
     }
 
+    return
 //    console.log('Data read')
 } 
 
