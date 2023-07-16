@@ -1,6 +1,6 @@
 const redis = require("redis");
 
-const client = redis.createClient({url: 'redis://'+process.env.REDISCLOUD_URL} );
+const client = redis.createClient({url: process.env.EOG_REDIS_CLOUD_URL} );
 
 console.log('redis defined')
 
