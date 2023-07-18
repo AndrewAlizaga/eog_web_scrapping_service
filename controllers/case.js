@@ -7,6 +7,7 @@ const Site = require("../class/sites/site")
 //Search case controller
 const searchCase = async (name) => {
 
+	console.log("name: ", name)
 	
 	let results = null
 	var scrapper = Site

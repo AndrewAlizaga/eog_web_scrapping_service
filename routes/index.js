@@ -3,11 +3,11 @@ const express = require("express")
 const router = express.Router()
 
 //Controller
-const {searchCase} = require('../controllers/case')
+const {CreateCase} = require('../controllers/http/case')
 
 
 //applying middleware for auth connection
-router.get("/case", searchCase)
+router.post("/case", CreateCase)
 
 
 module.exports = router

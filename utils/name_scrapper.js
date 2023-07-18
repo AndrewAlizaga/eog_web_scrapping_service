@@ -36,5 +36,5 @@ const puppeteer = require("puppeteer");
     await page.screenshot({path: 'example.png'});
     //await page.pdf({path: 'hn.pdf', format: 'A4'});
 
-    await browser.close();
+   // await browser.close();
 })();
