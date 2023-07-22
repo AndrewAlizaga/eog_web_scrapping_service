@@ -3,7 +3,7 @@ let EntityORM = require("./entity")
 
 let tableName = "cases"
 let primaryKey = "id"
-let groupKey = ""
+let groupKey = "owner"
     
 
     async function SaveCase(searchCase){
@@ -12,20 +12,41 @@ let groupKey = ""
         return caseResult
     }
 
-    async function SaveCases(searchCases){}
+    async function UpdateCase(searchCase){
+        let caseResult = await EntityORM.UpdateEntity(searchCase, searchCase.id, tableName)
+        console.log(caseResult)
+        return caseResult
+    }
+
+    async function SaveCases(searchCases){
+
+    }
     
-    async function DeleteCaseByID(searchCaseID){}
+    async function DeleteCaseByID(id){
+        let caseResult = await EntityORM.DeleteEntityByID(id, tableName)
+        console.log(caseResult)
+        return caseResult
+    }
     
-    async function GetCaseByID(){caseID}
+    async function GetCaseByID(id){
+        let caseResult = await EntityORM.GetEntityByID(id, tableName)
+        console.log(caseResult)
+        return caseResult
+    }
 
 
-
-
+    async function GetCasesByID(id){
+        let caseResult = await EntityORM.GetEntitiesByID(id, groupKey, tableName)
+        console.log(caseResult)
+        return caseResult
+    }
 
 
 module.exports = {
 SaveCase,
+UpdateCase,
 SaveCases,
 DeleteCaseByID,
-GetCaseByID
+GetCaseByID,
+GetCasesByID
 }
