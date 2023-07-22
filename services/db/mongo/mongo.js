@@ -1,5 +1,4 @@
 const {MongoClient, ServerApiVersion} = require("mongodb");
-
 const connUrl = process.env.EOG_MONGO_CONN
 
 const mongoClient = new MongoClient(connUrl, {
@@ -16,15 +15,15 @@ async function initMongoClient() {
     try {
 
         await mongoClient.connect()
+        await mongoClient.db("admin").command({ping: 1})
 
-        await client.db("admin").command({ping: 1})
         console.log("ping success")
-    } finally {
-        await client.close();
-        console.log("client close on error")
+    } catch (error) {
+        console.log(error)
+        await mongoClient.close();
     }
 }
 
 initMongoClient()
 
-module.exports = {mongoClient}
+module.exports = mongoClient
