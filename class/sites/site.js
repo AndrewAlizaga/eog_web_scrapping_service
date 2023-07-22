@@ -8,7 +8,6 @@
  */
  const puppeteer = require("puppeteer");
  const { detectPositivity, detectNames, detectCaseNature } = require("../../services/pattern_detector");
- const {imgFilter} = require("../../services/image_filter")
  const {CaseSources} = require("../../utils/Enums");
  const {convertStringToUrlQuery} = require("../../utils/parseHelper");
  
@@ -177,7 +176,7 @@ class Site {
         collectedData.party_involved = await detectNames(collectedData.paragraphs_unfiltered);
     
         //Image filtering
-        collectedData.unfiltered_img_url_list = await imgFilter(collectedData.unfiltered_img_url_list, CaseSources.NuevoDiario);
+        //collectedData.unfiltered_img_url_list = await imgFilter(collectedData.unfiltered_img_url_list, CaseSources.NuevoDiario);
     
         //Log results
         console.log(collectedData);

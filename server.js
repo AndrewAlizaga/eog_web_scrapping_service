@@ -1,6 +1,6 @@
 //DB
 let client = require("./services/db/redis/index");
-const { error } = require("console");
+require("./services/db/mongo/mongo")
 client.connect()
 
 //HTTP DEPENDENCIES
