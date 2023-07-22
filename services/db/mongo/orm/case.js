@@ -1,32 +1,31 @@
 let mongoClient = require("../mongo")
 let EntityORM = require("./entity")
 
-class CaseORM extends EntityORM {
+let tableName = "cases"
+let primaryKey = "id"
+let groupKey = ""
+    
 
-    constructor(client){
-        this.client = client
-        this.tableName = "case"
-        this.primaryKey = "id"
-        this.groupKey = ""
+    async function SaveCase(searchCase){
+        let caseResult = await EntityORM.SaveEntity(searchCase, tableName)
+        console.log(caseResult)
+        return caseResult
     }
 
-    async SaveCase(searchCase){}
-
-    async SaveCases(searchCases){}
+    async function SaveCases(searchCases){}
     
-    async DeleteCaseByID(searchCaseID){}
+    async function DeleteCaseByID(searchCaseID){}
     
-    async GetCaseByID(){caseID}
+    async function GetCaseByID(){caseID}
 
-}
 
 
 
 
 
 module.exports = {
-    SaveCase, 
-    SaveCases, 
-    DeleteCaseByID, 
-    GetCaseByID,
+SaveCase,
+SaveCases,
+DeleteCaseByID,
+GetCaseByID
 }

@@ -1,6 +1,5 @@
 const puppeteer = require("puppeteer");
 const { detectViolence, detectNames } = require("../../services/pattern_detector");
-const {imgFilter} = require("../../services/image_filter")
 const {CaseSources} = require("../../utils/Enums");
 const {convertStringToUrlQuery} = require("../../utils/parseHelper");
 const Site = require("./site")

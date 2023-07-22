@@ -1,27 +1,36 @@
-class EntityORM {
+let mongoClient = require("../mongo")
+let EOG_DB = process.env.EOG_DB
 
-    constructor(client) {
-        this.client = client
-    }
+   
 
-    async checkClient(){
-
-    }
-
-    async checkEmpty(){
+    async function checkClient(){
 
     }
 
+    async function checkEmpty(){
 
-    async SaveEntity(data){}
+    }
 
-    async SaveEntities(data){}
+
+    async function SaveEntity(data, table){
+
+       let mongoAgregationResult = await mongoClient.db(EOG_DB).collection(table).insertOne(data)
+       console.log("agregation result: ", mongoAgregationResult)
+       return mongoAgregationResult
+    }
+
+    async function SaveEntities(data){}
     
-    async DeleteEntityByID(id){}
+    async function DeleteEntityByID(id){}
     
-    async GetEntityByID(id){}
+    async function GetEntityByID(id){}
 
-    async GetEntitiesByID(id){}
+    async function GetEntitiesByID(id){}
+
+module.exports = {
+SaveEntity,
+SaveEntities,
+DeleteEntityByID,
+GetEntityByID,
+GetEntitiesByID
 }
-
-module.exports = EntityORM
