@@ -5,6 +5,99 @@ const util = require('util');
 const Case = require("../class/case");
 const { CaseNature } = require("../utils/Enums")
 
+//sentiment nlp implementation
+var natural = require('natural');
+var tokenizer = new natural.WordTokenizer();
+var Analyzer = natural.SentimentAnalyzer;
+var stemmer = natural.PorterStemmer;
+
+//topic nlp implementation
+var {NlpManager} = require('node-nlp');
+const { request } = require("http");
+var manager = new NlpManager({ languages: ['es'], forceNER: true});
+
+
+// trains topics nlp
+async function trainManager(){
+    console.log("Invoke - trainManager")
+    // utterances and intentions / intents
+    //crime
+    manager.addDocument('es', 'entro a robar', 'nature.crime')
+    manager.addDocument('es', 'lo mato', 'nature.crime')
+    manager.addDocument('es', 'asesino', 'nature.crime')
+    manager.addDocument('es', 'estafaron a las personas', 'nature.crime')
+    manager.addDocument('es', 'estafa', 'nature.crime')
+    manager.addDocument('es', 'mataron', 'nature.crime')
+    manager.addDocument('es', 'carcel', 'nature.crime')
+    manager.addDocument('es', 'mato', 'nature.crime')
+    manager.addDocument('es', 'encarcelaron', 'nature.crime')
+    manager.addDocument('es', 'encarcelado', 'nature.crime')
+    manager.addDocument('es', 'los encarcelaron', 'nature.crime')
+    manager.addDocument('es', 'asesinato', 'nature.crime')
+
+    //heroism
+    manager.addDocument('es', 'lo salvaron', 'nature.heroism')
+    manager.addDocument('es', 'ayudo a los niños', 'nature.heroism')
+    manager.addDocument('es', 'donaron', 'nature.heroism')
+    manager.addDocument('es', 'dono', 'nature.heroism')
+    manager.addDocument('es', 'salvar al pais', 'nature.heroism')
+    manager.addDocument('es', 'ayudar a la gente', 'nature.heroism')
+    manager.addDocument('es', 'dio una mano', 'nature.heroism')
+    manager.addDocument('es', 'buen samaritano', 'nature.heroism')
+
+    //politics
+    manager.addDocument('es', 'el presidente dijo', 'nature.politics')
+    manager.addDocument('es', 'politicos', 'nature.politics')
+    manager.addDocument('es', 'los diputados', 'nature.politics')
+    manager.addDocument('es', 'el candidato', 'nature.politics')
+    manager.addDocument('es', 'candidato oficial', 'nature.politics')
+    manager.addDocument('es', 'candidato', 'nature.politics')
+    manager.addDocument('es', 'los candidatos', 'nature.politics')
+    manager.addDocument('es', 'la alcaldia', 'nature.politics')
+    manager.addDocument('es', 'alcaldia', 'nature.politics')
+    manager.addDocument('es', 'el presidente', 'nature.politics')
+    manager.addDocument('es', 'sector empresarial', 'nature.politics')
+    manager.addDocument('es', 'sector privado', 'nature.politics')
+    manager.addDocument('es', 'alianza', 'nature.politics')
+
+
+        await manager.train();
+        manager.save();
+        const responseTest = await manager.process('es', 'entro y los mato a todos')
+        console.log('training response test: ', responseTest.classifications)
+
+}
+
+trainManager()
+
+
+async function detectCaseNature(data){
+    console.log("invoke detectCaseNature - ", data)
+    let processManagerResponse = []
+    if (data.length == 0){
+        processManagerResponse =  'no clasificado'
+    }else {
+
+        let requestString = ""
+        data.map(async segment => {
+            requestString = requestString + " " + segment
+        })
+
+        console.log("string to check: ", requestString)
+
+        const nlpResponse = await manager.process('es', requestString)
+        console.log(nlpResponse)
+
+        processManagerResponse = nlpResponse.classifications
+   
+    }
+ 
+    console.log('manager results: ', processManagerResponse)
+
+    return processManagerResponse
+
+}
+
 async function readFileToWords(path_){
 
     const readFile = util.promisify(fs.readFile);
@@ -143,10 +236,23 @@ async function detectNames(data){
     return party_names;
 } 
 
-async function detectViolence(data){
+async function detectPositivity(data){
 
+    console.log("invoke - detectPositivity")
     //Convert to word array
     let sample = data.toString().split(' ');
+
+    //nlp call
+    var analyzerInstance = new Analyzer("Spanish", stemmer, "afinn");
+
+    console.log("sentiment found: ", analyzerInstance.getSentiment(sample))
+
+
+
+
+
+    
+    return analyzerInstance.getSentiment(sample)
 
     //Accent removal
     sample = await accentRemoval(sample)
@@ -186,4 +292,4 @@ async function detectViolence(data){
     
 }
 
-module.exports = { detectViolence, detectNames};
+module.exports = { detectPositivity, detectNames, detectCaseNature};
