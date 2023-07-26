@@ -41,6 +41,7 @@ const searchCase = async (name, source = 2) => {
 			console.log("la presa case")
 			scrapper = new LaPrensa(name)
 
+			//main data scrap
 			var {scrappingResponse, error} = await scrapper.scrap()
 
 			console.log("POST SCAPPER CALL")
@@ -54,12 +55,10 @@ const searchCase = async (name, source = 2) => {
 			console.log(scrappingResponse)
 
 			/// get deeper data
-			let compiledResults = await scrapper.compileCases(scrappingResponse.search.leads)
-			console.log("compiled results: ", compiledResults)
+			scrapper.compileCases(scrappingResponse.search.leads, (x) => {console.log("compiled results: ", x)})
+			
+			return {scrappingResponse, error}
 
-			//return res.json(results).status(200)
-			return {compiledResults, error}
-		
 	
 		default: 
 			//return res.status(404).json({'message': 'Scrapper unidentify'})

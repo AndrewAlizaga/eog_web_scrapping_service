@@ -12,15 +12,15 @@ async function CreateCase(req, res) {
         return res.status(403).json("missing name")
     }
 
-    var {compiledResults, error} = await searchCase(name, 2)
+    var {scrappingResponse, error} = await searchCase(name, 2)
 
-    console.log("results - ", compiledResults)
+    console.log("results - ", scrappingResponse)
     console.log(error)
 
     if (error != null) {
         res.status(503).json('internal error')
     }else{
-        res.status(200).json(compiledResults)
+        res.status(200).json(scrappingResponse)
     }
 
 
