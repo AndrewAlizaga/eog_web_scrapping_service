@@ -16,7 +16,7 @@ class LaPrensa extends Site {
     constructor(name, date, type) {
         super(name, date, type);
         this.pageNumberClass = 'gsc-cursor-page'
-        this.base_url = "https://www.laprensani.com/?q="+name+"&s=&form_search_nonce_field=0cb92ac463&_wp_http_referer=%2F%3Fq%3DAndrew%2BAlizaga%26s%26form_search_nonce_field%3De7330ee651"
+        this.base_url = "https://www.laprensani.com/?q="+name+"&s=&form_search_nonce_field=4b0aeef78b&_wp_http_referer=%2F%3Fq%3DAndrew%2BAlizaga%26s%26form_search_nonce_field%3De7330ee651"
     }
 
     async scrap(){
