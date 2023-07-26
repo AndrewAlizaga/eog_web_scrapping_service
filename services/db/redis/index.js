@@ -1,11 +1,20 @@
-const redis = require("redis");
+const { createClient } = require("redis")
 
-const client = redis.createClient({url: process.env.EOG_REDIS_CLOUD_URL} );
 
-console.log('redis defined')
+
+
+const client = createClient({
+    password: process.env.EOG_REDIS_PASS,
+    socket: {
+        host: process.env.EOG_REDIS_HOST,
+        port: process.env.EOG_REDIS_PORT,
+        timeout: 60,
+    }
+});
+
 
 client.on('connect', function () {
-  console.log("connected")
+  console.log("REDIS connected")
 });
 
 client.on("error", (err) => {
@@ -13,5 +22,6 @@ client.on("error", (err) => {
   console.log(err);
 });
 
+client.connect()
 
 module.exports = client

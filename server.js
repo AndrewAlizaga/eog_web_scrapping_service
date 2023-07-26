@@ -1,7 +1,6 @@
 //DB
-let client = require("./services/db/redis/index");
+require("./services/db/redis/index");
 require("./services/db/mongo/mongo")
-client.connect()
 
 //HTTP DEPENDENCIES
 const express = require("express")

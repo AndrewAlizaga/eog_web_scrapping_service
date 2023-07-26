@@ -12,6 +12,7 @@ const { error } = require("console");
 const { string } = require("protocol-buffers-encodings");
 
 class LaPrensa extends Site {
+
     constructor(name, date, type) {
         super(name, date, type);
         this.pageNumberClass = 'gsc-cursor-page'
@@ -138,7 +139,7 @@ class LaPrensa extends Site {
 
     }
 
-    async compileCases(leads){
+    async compileCases(leads, callback){
         if (leads == null || leads.length == 0){
                 return
         }
@@ -155,7 +156,9 @@ class LaPrensa extends Site {
         
         console.log("compilation completed")
         console.log(compilationResults)
-        return compilationResults
+        
+        callback(compilationResults)
+        return 
         
     }
 
