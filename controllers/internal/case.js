@@ -2,9 +2,10 @@
 const { error } = require("console")
 const nuevoDiario = require("../../class/sites/nuevoDiario")
 const LaPrensa = require("../../class/sites/laPrensa")
-
+const CaseORM = require("../../services/db/mongo/orm/case")
 const Site = require("../../class/sites/site")
 const { compileFunction } = require("vm")
+const Case = require("../../class/case")
 
 
 //Search case internal
@@ -54,9 +55,12 @@ const searchCase = async (name, source = 2) => {
 			console.log("results")
 			console.log(scrappingResponse)
 
+			//DB SAVE
+
+
 			/// get deeper data
 			scrapper.compileCases(scrappingResponse.search.leads, (x) => {console.log("compiled results: ", x)})
-			
+			CaseORM.SaveCase(scrappingResponse.search)
 			return {scrappingResponse, error}
 
 	

@@ -7,6 +7,7 @@ let groupKey = "owner"
     
 
     async function SaveCase(searchCase){
+        console.log("invoke SaveCase")
         let caseResult = await EntityORM.SaveEntity(searchCase, tableName)
         console.log(caseResult)
         return caseResult
