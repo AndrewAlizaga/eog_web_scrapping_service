@@ -21,14 +21,19 @@
     "redis": "^4.0.1",
     "save": "^2.5.0",
     "url": "^0.11.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "xlsx": ">=0.19.3"
+
   },
   "devDependencies": {
     "@grpc/grpc-js": "^1.8.17",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
-    "protobufjs": ">=7.2.4"
+    "protobufjs": ">=7.2.4",
+    "xlsx": ">=0.19.3"
+
   },
+ 
   "scripts": {
     "test": "mocha --recursive test",
     "diario": "nodemon ./scrappers/web_scrapper_nuevo_diario.js",
