@@ -16,7 +16,7 @@ class LaPrensa extends Site {
     constructor(name, date, type) {
         super(name, date, type);
         this.pageNumberClass = 'gsc-cursor-page'
-        this.base_url = "https://www.laprensani.com/?q="+name+"&s=&form_search_nonce_field=4b0aeef78b&_wp_http_referer=%2F%3Fq%3DAndrew%2BAlizaga%26s%26form_search_nonce_field%3De7330ee651"
+        this.base_url = "https://www.laprensani.com/?q="+name+"&s=&form_search_nonce_field=ab77a2d7fc&_wp_http_referer=%2F"
     }
 
     async scrap(){
@@ -24,9 +24,9 @@ class LaPrensa extends Site {
 
         await super.scrap()
 
-    //Get  dimensions
-    let pagesLinks = await super.getPagesNumb();
-    console.log("LaPrensa - name: ", this.name)
+        //Get  dimensions
+        let pagesLinks = await super.getPagesNumb();
+        console.log("LaPrensa - name: ", this.name)
 
 	console.log('obtained links')
 	console.log(pagesLinks)
@@ -122,7 +122,8 @@ class LaPrensa extends Site {
         var scrappingResponse = {searchStatus: 2, 
                 search: {
                 id: 1,
-                name: this.name+'-laprensa',
+                name: this.name,
+                trackName: this.name+'-laprensa',
                 leads: this.casesList
           }}
 
