@@ -7,6 +7,7 @@ let groupKey = "owner"
     
 
     async function SaveLead(searchLead){
+        console.log("saving lead")
         let leadResult = await EntityORM.SaveEntity(searchLead, tableName)
         console.log(leadResult)
         return leadResult
@@ -19,6 +20,11 @@ let groupKey = "owner"
     }
 
     async function SaveLeads(searchLeads){
+        console.log("saving leads")
+        searchLeads.forEach(element => {
+            SaveLead(element)
+
+        });
 
     }
     
