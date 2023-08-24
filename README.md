@@ -1,6 +1,27 @@
-# eog_web_scrapping_service
-Web scrapping services bots of national news paper.
+Cool Music App!
 
-The aim for this project is to provde a scrapper that collects data on news articles related to a persons name for futher examinaation
-for example let's say a have subject A under a specific name and I run a search, the idea is for the applicative to run an extensive search of this persons name and information and matched to a profile,
-The whole thing should be on micro services, but this is a per say, the heart of the aplication
+Getting started
+
+Requirements 
+
+1 - Have a spotify development API KEY
+2 - Have a SQL Server instance running either on you env or the cloud to connect
+3 - Have the lastest version of golang installed
+  
+In order to use the app follow the next steps!
+
+1) Clone the repository
+git clone https://gitlab.com/vozy/go-vozyengine-hangup-manager.git
+
+2) Get and compile dependencies
+go mod tidy
+
+3) Set your env keys locally!
+
+
+4) Run the project!
+go run main.go
+
+
+//todo:
+You can check the API documentation here: sample.txt
