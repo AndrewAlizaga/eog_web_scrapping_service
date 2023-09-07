@@ -1,10 +1,10 @@
 //Bots
 const { error } = require("console")
-const nuevoDiario = require("../../class/sites/nuevoDiario")
-const LaPrensa = require("../../class/sites/laPrensa")
+const nuevoDiario = require("../../class/sites/siteAPI")
+const LaPrensa = require("../../class/sites/webSite")
 const CaseORM = require("../../services/db/mongo/orm/case")
 const LeadORM = require("../../services/db/mongo/orm/lead")
-const Site = require("../../class/sites/site")
+const Site = require("../../class/sites/source")
 const { compileFunction } = require("vm")
 const Case = require("../../class/case")
 

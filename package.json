@@ -12,7 +12,7 @@
     "mongodb": "^5.7.0",
     "natural": "^6.5.0",
     "node": "^17.3.0",
-    "node-nlp": "^3.10.2",
+    "node-nlp": "^4.27.0",
     "nodemon": "^3.0.1",
     "openai": "^3.3.0",
     "protobufjs": ">=7.2.4",
@@ -22,21 +22,14 @@
     "save": "^2.5.0",
     "url": "^0.11.0",
     "uuid": "^8.3.2",
-    "xlsx": ">=0.19.3",
-    "lodash.trimend": ">=4.17.21"
-
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@grpc/grpc-js": "^1.8.17",
     "chai": "^4.3.7",
     "mocha": "^10.2.0",
-    "protobufjs": ">=7.2.4",
-    "xlsx": ">=0.19.3",
-    "lodash.trimend": ">=4.17.21"
-
-
+    "protobufjs": ">=7.2.4"
   },
- 
   "scripts": {
     "test": "mocha --recursive test",
     "diario": "nodemon ./scrappers/web_scrapper_nuevo_diario.js",

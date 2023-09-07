@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const { detectViolence, detectNames } = require("../../services/pattern_detector");
 const {CaseSources} = require("../../utils/Enums");
 const {convertStringToUrlQuery} = require("../../utils/parseHelper");
-const Site = require("./site")
+const Site = require("./source")
 //Web scrapper functions
 const pageClick = require("../../services/scrapper/click");
 const LeadServices = require("../../services/model_services/LeadServices");
