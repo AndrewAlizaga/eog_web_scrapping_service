@@ -2,31 +2,29 @@ const puppeteer = require("puppeteer");
 const { detectViolence, detectNames } = require("../../services/pattern_detector");
 const {CaseSources} = require("../../utils/Enums");
 const {convertStringToUrlQuery} = require("../../utils/parseHelper");
-const Site = require("./site")
+const Source = require("./source")
 //Web scrapper functions
 const pageClick = require("../../services/scrapper/click");
 const LeadServices = require("../../services/model_services/LeadServices");
 const SearchServices = require("../../services/model_services/SearchServices");
 const { timingSafeEqual } = require("crypto");
 const { error } = require("console");
-const { string } = require("protocol-buffers-encodings");
 
-class LaPrensa extends Site {
-
+class NuevoDiario extends Source {
     constructor(name, date, type) {
         super(name, date, type);
         this.pageNumberClass = 'gsc-cursor-page'
-        this.base_url = "https://www.laprensani.com/?q="+name+"&s=&form_search_nonce_field=ab77a2d7fc&_wp_http_referer=%2F"
+        this.base_url = "https://www.elnuevodiario.com.ni/busqueda/?q="
     }
 
     async scrap(){
-        console.log("LaPresa - Scrap - name: ", this.name)
+        console.log("name: ", this.name)
 
         await super.scrap()
 
-        //Get  dimensions
-        let pagesLinks = await super.getPagesNumb();
-        console.log("LaPrensa - name: ", this.name)
+    //Get  dimensions
+    let pagesLinks = await super.getPagesNumb();
+    console.log("name: ", this.name)
 
 	console.log('obtained links')
 	console.log(pagesLinks)
@@ -37,29 +35,21 @@ class LaPrensa extends Site {
                 console.log('debugging this.casesList prior sending')
                 console.log(this.casesList)
                 newCases = await this.evaluateFunction(this.page, this.casesList)
-                // await this.browser.close()
                 //filter links
                 console.log('list length 1: '+newCases.length)
-                let casesHashmap = new Map()
 
                 newCases = newCases.filter(x => {
-                        var hashmapElement = casesHashmap[x]
-                        if ((hashmapElement != null) || !(x !== '' && x !== null)){
-                                return false
-                        }else {
-                                casesHashmap.set(x, x)
-                                return true
-                        }
+                        if (x !== '' && x !== null) return true
+                        else return false
                 })
-                console.log('Hashmap: ', casesHashmap)
-                newCases = []
-                casesHashmap.forEach(source => {
-                        newCases.push(source)
-                })
+
+                console.log('list length 2: '+newCases.length)
+                console.log("cases")
+                console.log(newCases)
                 this.casesList = this.casesList.concat(newCases)
                 console.log(this.casesList)
         }else {
-                console.log("going through pages")
+                console.log("goint through pages")
                 for(let i=0;i<pagesLinks;i++){
                         console.log("bucle run: "+i+" from: "+pagesLinks)
                         if(i!=0){
@@ -122,8 +112,7 @@ class LaPrensa extends Site {
         var scrappingResponse = {searchStatus: 2, 
                 search: {
                 id: 1,
-                name: this.name,
-                trackName: this.name+'-laprensa',
+                name: this.name+'-nuevodiario',
                 leads: this.casesList
           }}
 
@@ -138,29 +127,6 @@ class LaPrensa extends Site {
         return fullResponse
 
 
-    }
-
-    async compileCases(leads, callback){
-        if (leads == null || leads.length == 0){
-                return
-        }
-
-        console.log("prior compilation mapping")
-
-        let compilationResults = []
-        for (const url of leads) {
-                let compilationResult = await super.compileCase(url)
-                compilationResults.push(compilationResult)
-        }
-
-        await this.browser.close()
-        
-        console.log("compilation completed")
-        console.log(compilationResults)
-        
-        callback(compilationResults)
-        return 
-        
     }
 
     async evaluateFunction(page, casesList){
@@ -206,4 +172,4 @@ class LaPrensa extends Site {
 
 }
 
-module.exports = LaPrensa
+module.exports = NuevoDiario

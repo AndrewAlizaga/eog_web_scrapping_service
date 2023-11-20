@@ -1,85 +1,102 @@
-//Bots
-const { error } = require("console")
-const nuevoDiario = require("../../class/sites/nuevoDiario")
-const LaPrensa = require("../../class/sites/laPrensa")
-const CaseORM = require("../../services/db/mongo/orm/case")
-const LeadORM = require("../../services/db/mongo/orm/lead")
-const Site = require("../../class/sites/site")
-const { compileFunction } = require("vm")
-const Case = require("../../class/case")
+const { error } = require("console");
+const nuevoDiario = require("../../class/sites/siteAPI");
+const WebSite = require("../../class/sites/webSite");
+const CaseORM = require("../../services/db/mongo/orm/case");
+const LeadORM = require("../../services/db/mongo/orm/lead");
+const Site = require("../../class/sites/source");
+const { SearchLevel } = require("../../utils/Enums");
+const LocalSites = require("../../config/source/settings/test/site.json");
 
+const testEnv = process.env.EOG_ENV;
 
-//Search case internal
-const searchCase = async (name, source = 2) => {
+// Search case internal
+const searchCase = async (name, source = 2, searchLevel = 0, res) => {
+    console.log("searchCase - internal - source: ", source);
 
-	console.log("searchCase - internal - source: ", source)
-	
-	let results = null
-	var scrapper = Site
+    let results = null;
+    let errorResult = null;
+    let scrapper = Site;
 
-	switch (source) {
-		
-		//Basic google & duckgo search
-		case 0:
-			break;
-	
-		//Nuevo diario
-		case 1:
-			scrapper = new nuevoDiario(name)
-			results, error = scrapper.scrap()
+    const sources = GetSiteSerchSources(source, searchLevel);
 
-			if (error != null) {
-				return res.status(503).json({'message': e.toString()})
+    switch (source) {
+        // TODO: 
+        case 1:
+            scrapper = new nuevoDiario(name);
+            ({ results, error: errorResult } = scrapper.scrap());
 
-			}
-			
-			return res.json(results).status(200)
-		
-			break;
-			
-		//La Prensa
-		case 2:
-			console.log("case 2")
-			console.log("la presa case")
-			scrapper = new LaPrensa(name)
+            if (errorResult != null) {
+                return res.status(503).json({ message: errorResult.toString() });
+            }
 
-			//main data scrap
-			var {scrappingResponse, error} = await scrapper.scrap()
+            return res.status(200).json(results);
 
-			console.log("POST SCAPPER CALL")
-			
-			if (error != null) {
-				return null, new Error("INTERNAL ERROR: "+error.toString())
+        // Web Site
+        case 2:
+            console.log("web site tracking");
 
-			}
+            const responses = [];
 
-			console.log("results")
-			console.log(scrappingResponse)
+            for (const element of sources) {
+                scrapper = new WebSite(
+                    name,
+                    null,
+                    null,
+                    element.base_url,
+                    element.sub_url,
+                    element.tracking_sufix,
+                    element.pages_detector_class
+                );
 
-			//DB SAVE
+                const { scrappingResponse, error } = await scrapper.scrap();
 
+                console.log("POST SCAPPER CALL");
 
-			/// get deeper data
-			scrapper.compileCases(scrappingResponse.search.leads, (x) => {
-				console.log("compiled results: ", x)
-				LeadORM.SaveLeads(x)
+                if (error != null) {
+                    return res.status(503).json({ message: `INTERNAL ERROR: ${error.toString()}` });
+                }
 
-			})
-			CaseORM.SaveCase(scrappingResponse.search)
-			return {scrappingResponse, error}
+                console.log("results");
+                console.log(scrappingResponse);
 
-	
-		default: 
-			//return res.status(404).json({'message': 'Scrapper unidentify'})
-			console.log("not found")
-			break;
-	}
-	
-	//Scrapping ready
-	//return res.status(200).json(results)
+                // DB SAVE
+                scrapper.compileCases(scrappingResponse.search.leads, (x) => {
+                    console.log("compiled results: ", x);
+                    LeadORM.SaveLeads(x);
+                });
 
-}
+                // sent to db and push to responses
+                CaseORM.SaveCase(scrappingResponse.search);
+                responses.push(scrappingResponse);
+            }
 
+            return res.status(200).json({ responses, error: null });
 
+        default:
+            console.log("not found");
+            return res.status(404).json({ message: "Scrapper unidentifiable" });
+    }
+};
 
-module.exports = {searchCase}
+const GetSiteSerchSources = (type, searchLevel) => {
+    if (testEnv === "local") {
+        switch (searchLevel) {
+            case SearchLevel.Low:
+                return LocalSites;
+            // TODO: implement medium and deep search
+        }
+    }
+
+    if (type === 2) {
+        switch (searchLevel) {
+            case 0:
+                return ["https://www.nuevodiarioweb.com.ar/noticias/2021/01/01/"];
+            case 1:
+                return ["https://www.nuevodiarioweb.com.ar/noticias/2021/01/01/"];
+        }
+    }
+
+    return null;
+};
+
+module.exports = { searchCase };

@@ -8,4 +8,12 @@ const CaseSources = {
     LaPrensa: 1
 }
 
-module.exports = {CaseNature, CaseSources};
+const SearchLevel = {
+    Low: 0,
+    Medium: 1,
+    Deep: 3,
+    Max: 4,
+    Test: 5,
+}
+
+module.exports = {CaseNature, CaseSources, SearchLevel};
