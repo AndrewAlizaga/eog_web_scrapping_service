@@ -1,4 +1,4 @@
-{
+[{
     "id": 0,
     "name": "la prensa",
     "complex_url": true,
@@ -7,4 +7,4 @@
     "pages_detector_class": "gsc-cursor-page",
     "tracking_sufix": "-laprensa"
     
-}
+}]

@@ -1,29 +1,31 @@
 //Bots
 const { error } = require("console")
 const nuevoDiario = require("../../class/sites/siteAPI")
-const LaPrensa = require("../../class/sites/webSite")
+const WebSite = require("../../class/sites/webSite")
 const CaseORM = require("../../services/db/mongo/orm/case")
 const LeadORM = require("../../services/db/mongo/orm/lead")
 const Site = require("../../class/sites/source")
 const { compileFunction } = require("vm")
 const Case = require("../../class/case")
+const { SearchLevel } = require("../../utils/Enums")
+const LocalSites = require("../../config/source/settings/test/site.json")
+
+testEnv = process.env.EOG_ENV
 
 
 //Search case internal
-const searchCase = async (name, source = 2) => {
+const searchCase = async (name, source = 2, searchLevel = 0) => {
 
 	console.log("searchCase - internal - source: ", source)
 	
 	let results = null
 	var scrapper = Site
 
+	sources = GetSiteSerchSources(source, searchLevel)
+
 	switch (source) {
 		
-		//Basic google & duckgo search
-		case 0:
-			break;
-	
-		//Nuevo diario
+		//API
 		case 1:
 			scrapper = new nuevoDiario(name)
 			results, error = scrapper.scrap()
@@ -37,11 +39,15 @@ const searchCase = async (name, source = 2) => {
 		
 			break;
 			
-		//La Prensa
+		//Web Site
 		case 2:
-			console.log("case 2")
-			console.log("la presa case")
-			scrapper = new LaPrensa(name)
+			console.log("web site tracking")
+
+			var responses = []
+
+			sources.array.forEach(async element => {
+				
+				scrapper = new WebSite(name, null, null, )
 
 			//main data scrap
 			var {scrappingResponse, error} = await scrapper.scrap()
@@ -65,8 +71,15 @@ const searchCase = async (name, source = 2) => {
 				LeadORM.SaveLeads(x)
 
 			})
+			//sent to db and psuh to responses
 			CaseORM.SaveCase(scrappingResponse.search)
-			return {scrappingResponse, error}
+			responses.push(scrappingResponse)
+
+			});
+
+			return {responses, error}
+
+			
 
 	
 		default: 
@@ -81,5 +94,32 @@ const searchCase = async (name, source = 2) => {
 }
 
 
+const GetSiteSerchSources = (type, searchLevel) => {
+
+
+	if (testEnv == "local") {
+
+		switch (searchLevel){
+			case SearchLevel.Low:
+			return LocalSites
+			//TODO: implement medium and deep search
+		}
+
+	}
+
+	if (type == 2){
+		switch (level){
+			case 0:
+				return ["https://www.nuevodiarioweb.com.ar/noticias/2021/01/01/"]
+
+			case 1:
+				return ["https://www.nuevodiarioweb.com.ar/noticias/2021/01/01/"]
+
+
+			}
+	}
+
+	return 
+}
 
 module.exports = {searchCase}
