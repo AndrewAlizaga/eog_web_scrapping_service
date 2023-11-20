@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const { detectViolence, detectNames } = require("../../services/pattern_detector");
 const {CaseSources} = require("../../utils/Enums");
 const {convertStringToUrlQuery} = require("../../utils/parseHelper");
-const Site = require("./source")
+const Source = require("./source")
 //Web scrapper functions
 const pageClick = require("../../services/scrapper/click");
 const LeadServices = require("../../services/model_services/LeadServices");
@@ -11,22 +11,24 @@ const { timingSafeEqual } = require("crypto");
 const { error } = require("console");
 const { string } = require("protocol-buffers-encodings");
 
-class LaPrensa extends Site {
+class WebSite extends Source {
 
-    constructor(name, date, type) {
+    constructor(name, date, type, baseUrl, subUrl = "", trackingSufix, pagesDetectorClass) {
         super(name, date, type);
         this.pageNumberClass = 'gsc-cursor-page'
-        this.base_url = "https://www.laprensani.com/?q="+name+"&s=&form_search_nonce_field=ab77a2d7fc&_wp_http_referer=%2F"
+        this.base_url = "https://www.WebSiteni.com/?q="+name+"&s=&form_search_nonce_field=ab77a2d7fc&_wp_http_referer=%2F"
     }
 
+
+
     async scrap(){
-        console.log("LaPresa - Scrap - name: ", this.name)
+        console.log("Site - Scrap - name: ", this.name)
 
         await super.scrap()
 
         //Get  dimensions
         let pagesLinks = await super.getPagesNumb();
-        console.log("LaPrensa - name: ", this.name)
+        console.log("WebSite - name: ", this.name)
 
 	console.log('obtained links')
 	console.log(pagesLinks)
@@ -123,7 +125,7 @@ class LaPrensa extends Site {
                 search: {
                 id: 1,
                 name: this.name,
-                trackName: this.name+'-laprensa',
+                trackName: this.name+'-WebSite',
                 leads: this.casesList
           }}
 
@@ -206,4 +208,4 @@ class LaPrensa extends Site {
 
 }
 
-module.exports = LaPrensa
+module.exports = WebSite

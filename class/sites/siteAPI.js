@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const { detectViolence, detectNames } = require("../../services/pattern_detector");
 const {CaseSources} = require("../../utils/Enums");
 const {convertStringToUrlQuery} = require("../../utils/parseHelper");
-const Site = require("./source")
+const Source = require("./source")
 //Web scrapper functions
 const pageClick = require("../../services/scrapper/click");
 const LeadServices = require("../../services/model_services/LeadServices");
@@ -10,7 +10,7 @@ const SearchServices = require("../../services/model_services/SearchServices");
 const { timingSafeEqual } = require("crypto");
 const { error } = require("console");
 
-class NuevoDiario extends Site {
+class NuevoDiario extends Source {
     constructor(name, date, type) {
         super(name, date, type);
         this.pageNumberClass = 'gsc-cursor-page'

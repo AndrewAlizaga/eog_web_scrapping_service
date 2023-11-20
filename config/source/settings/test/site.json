@@ -1,0 +1,10 @@
+{
+    "id": 0,
+    "name": "la prensa",
+    "complex_url": true,
+    "base_url": "https://www.laprensani.com/?q=",
+    "sub_url": "&s=&form_search_nonce_field=ab77a2d7fc&_wp_http_referer=%2F",
+    "pages_detector_class": "gsc-cursor-page",
+    "tracking_sufix": "-laprensa"
+    
+}

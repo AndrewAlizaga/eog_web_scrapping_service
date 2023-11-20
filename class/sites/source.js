@@ -1,9 +1,9 @@
-//Abstract class that works as base for sites to scrapon
+//Abstract class that works as base for Sources to scrapon
 /**
  * 
- * Abstract Class Site
+ * Abstract Class Source
  * 
- * @class Site
+ * @class Source
  * 
  */
  const puppeteer = require("puppeteer");
@@ -15,11 +15,11 @@
  const pageClick = require("../../services/scrapper/click")
 const { exists } = require("fs");
 
-class Site {
+class Source {
 
     constructor(name, date = null, type = null) {
 
-        if (this.constructor == Site){
+        if (this.constructor == Source){
             throw new Error("ABSTRACT CLASS CANNOT BE INSTANTIATED")
         }
 
@@ -32,12 +32,12 @@ class Site {
         this.pageNumberClass = ""
         this.base_url = ""
         this.browser = puppeteer.Browser
-        this.page = Site.page
+        this.page = Source.page
 
     }
 
 
-    //main scrapping method for the sites, abstract since each site has its ways
+    //main scrapping method for the Sources, abstract since each Source has its ways
     async scrap(){
         this.browser = await puppeteer.launch({headless: false, defaultViewport: {
             width:1920,
@@ -185,4 +185,4 @@ class Site {
     }
 }
 
-module.exports = Site
+module.exports = Source
