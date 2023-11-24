@@ -1,11 +1,10 @@
 //Bots
 const { error } = require("console")
-const nuevoDiario = require("../class/sites/nuevoDiario")
-const Site = require("../class/sites/site")
+const Site = require("../class/sites/webSite")
 
 
 //Search case controller
-const searchCase = async (name) => {
+const searchCase = async (name, source = 2, searchLevel = 0) => {
 
 	console.log("name: ", name)
 	
@@ -13,66 +12,61 @@ const searchCase = async (name) => {
 	var scrapper = Site
 
 	let bot = 1
+
+	const sources = GetSiteSerchSources(source, searchLevel);
+
 	
 	
-	if(!bot || bot.localeCompare!=0){
-		try{
+	switch (source) {
+        // TODO: 
+        case 1:
+       
 
-			scrapper = new nuevoDiario(name)
+        // Web Site
+        case 2:
+            console.log("web site tracking");
 
-			var {scrappingResponse, error} = await scrapper.scrap()
+            const responses = [];
 
-			console.log("POST SCAPPER CALL")
-			
-			if (error != null) {
-				return null, new Error("INTERNAL ERROR: "+error.toString())
+            for (const element of sources) {
+                scrapper = new WebSite(
+                    name,
+                    null,
+                    null,
+                    element.base_url,
+                    element.sub_url,
+                    element.tracking_sufix,
+                    element.pages_detector_class
+                );
 
-			}
+                const { scrappingResponse, error } = await scrapper.scrap();
 
-			console.log("results")
-			console.log(scrappingResponse)
-			//return res.json(results).status(200)
-			return {scrappingResponse, error}
+                console.log("POST SCAPPER CALL");
 
+                if (error != null) {
+                    return res.status(503).json({ message: `INTERNAL ERROR: ${error.toString()}` });
+                }
 
-		}catch(e){
-			//return res.status(503).json({'message': e.toString()})
-			return null, new Error("INTERNAL ERROR: "+e.toString())
-		}
-	}
+                console.log("results");
+                console.log(scrappingResponse);
 
-	var scrapper = Site
+                // DB SAVE
+                scrapper.compileCases(scrappingResponse.search.leads, (x) => {
+                    console.log("compiled results: ", x);
+                    LeadORM.SaveLeads(x);
+                });
 
+                // sent to db and push to responses
+                CaseORM.SaveCase(scrappingResponse.search);
+                responses.push(scrappingResponse);
+            }
 
-	switch(bot){
-		
-		//Basic google & duckgo search
-		case 0:
-			break;
-	
-		//Nuevo diario
-		case 1:
-			
-			scrapper = new nuevoDiario(name)
-			results, error = scrapper.scrap()
+            return res.status(200).json({ responses, error: null });
 
-			if (error != null) {
-				return res.status(503).json({'message': e.toString()})
-
-			}
-			
-			return res.json(results).status(200)
-		
-			case 2:
-			break;
-		
-		case 3:
-			break;
-	
-		default: 
-			//return res.status(404).json({'message': 'Scrapper unidentify'})
-			break;
-	}
+        default:
+            console.log("not found");
+            return res.status(404).json({ message: "Scrapper unidentifiable" });
+    }
 	
 	//Scrapping ready
 	//return res.status(200).json(results)

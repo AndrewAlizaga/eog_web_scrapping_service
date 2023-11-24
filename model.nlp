@@ -3,153 +3,153 @@
     "languages": [
       "es"
     ],
-    "forceNER": true
+    "forceNER": true,
+    "tag": "nlp",
+    "threshold": 0.5,
+    "autoLoad": true,
+    "autoSave": true,
+    "modelFileName": "model.nlp",
+    "executeActionsBeforeAnswers": false,
+    "calculateSentiment": true
   },
   "nluManager": {
-    "settings": {},
-    "languages": [
+    "settings": {
+      "tag": "nlu-manager"
+    },
+    "locales": [
       "es"
     ],
-    "intentDomains": {},
+    "languageNames": {},
     "domainManagers": {
       "es": {
         "settings": {
-          "language": "es",
-          "useNoneFeature": true,
-          "config": {
-            "activation": "leaky-relu",
-            "hiddenLayers": [],
-            "iterations": 20000,
-            "learningRate": 0.7,
-            "errorThresh": 0.00005,
-            "momentum": 0.5,
-            "deltaErrorThresh": 0.000001,
-            "maxDecimals": 9,
-            "leakyReluAlpha": 0.08,
-            "timeout": 120000
-          }
+          "locale": "es",
+          "trainByDomain": false,
+          "tag": "domain-manager-es",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
         },
-        "language": "es",
-        "nluClassName": "BrainNLU",
-        "useMasterDomain": true,
-        "trainByDomain": false,
-        "keepStopwords": true,
         "stemDict": {
           "a,entro,rob": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "el,mat": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "asesin": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "a,el,estaf,person": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "estaf": {
-            "domain": "default",
-            "intent": "nature.crime"
-          },
-          "carcel": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "mat": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
+          },
+          "carcel": {
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "encarcel": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "el,encarcel": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "asesinat": {
-            "domain": "default",
-            "intent": "nature.crime"
+            "intent": "nature.crime",
+            "domain": "default"
           },
           "el,salv": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "a,ayud,el,nin": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "don": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "al,pai,salv": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "a,ayud,el,gent": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "dar,man,una": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "buen,samaritan": {
-            "domain": "default",
-            "intent": "nature.heroism"
+            "intent": "nature.heroism",
+            "domain": "default"
           },
           "dec,el,president": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "polit": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "diput,el": {
-            "domain": "default",
-            "intent": "nature.politics"
-          },
-          "candidat,oficial": {
-            "domain": "default",
-            "intent": "nature.politics"
-          },
-          "candidat": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "candidat,el": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
+          },
+          "candidat,oficial": {
+            "intent": "nature.politics",
+            "domain": "default"
+          },
+          "candidat": {
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "alcald,el": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "alcald": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "el,president": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "empresarial,sector": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "priv,sector": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           },
           "alianc": {
-            "domain": "default",
-            "intent": "nature.politics"
+            "intent": "nature.politics",
+            "domain": "default"
           }
         },
         "intentDict": {
@@ -157,232 +157,200 @@
           "nature.heroism": "default",
           "nature.politics": "default"
         },
-        "useStemDict": true,
+        "sentences": [
+          {
+            "domain": "default",
+            "utterance": "entro a robar",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "lo mato",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "asesino",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "estafaron a las personas",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "estafa",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "mataron",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "carcel",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "mato",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "encarcelaron",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "encarcelado",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "los encarcelaron",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "asesinato",
+            "intent": "nature.crime"
+          },
+          {
+            "domain": "default",
+            "utterance": "lo salvaron",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "ayudo a los niños",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "donaron",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "dono",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "salvar al pais",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "ayudar a la gente",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "dio una mano",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "buen samaritano",
+            "intent": "nature.heroism"
+          },
+          {
+            "domain": "default",
+            "utterance": "el presidente dijo",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "politicos",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "los diputados",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "el candidato",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "candidato oficial",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "candidato",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "los candidatos",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "la alcaldia",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "alcaldia",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "el presidente",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "sector empresarial",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "sector privado",
+            "intent": "nature.politics"
+          },
+          {
+            "domain": "default",
+            "utterance": "alianza",
+            "intent": "nature.politics"
+          }
+        ],
         "domains": {
           "master_domain": {
             "settings": {
-              "language": "es",
-              "useNoneFeature": true,
-              "config": {
-                "activation": "leaky-relu",
-                "hiddenLayers": [],
-                "iterations": 20000,
-                "learningRate": 0.7,
-                "errorThresh": 0.00005,
-                "momentum": 0.5,
-                "deltaErrorThresh": 0.000001,
-                "maxDecimals": 9,
-                "leakyReluAlpha": 0.08,
-                "timeout": 120000
-              }
+              "locale": "es",
+              "tag": "nlu-es",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
             },
-            "language": "es",
-            "keepStopwords": true,
-            "docs": [
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "entro",
-                  "a",
-                  "rob"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "el",
-                  "mat"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "asesin"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "estaf",
-                  "a",
-                  "el",
-                  "person"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "estaf"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "carcel"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "encarcel"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "el",
-                  "encarcel"
-                ]
-              },
-              {
-                "intent": "nature.crime",
-                "tokens": [
-                  "asesinat"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "el",
-                  "salv"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "ayud",
-                  "a",
-                  "el",
-                  "nin"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "don"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "salv",
-                  "al",
-                  "pai"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "ayud",
-                  "a",
-                  "el",
-                  "gent"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "dar",
-                  "una",
-                  "man"
-                ]
-              },
-              {
-                "intent": "nature.heroism",
-                "tokens": [
-                  "buen",
-                  "samaritan"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "el",
-                  "president",
-                  "dec"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "polit"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "el",
-                  "diput"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "candidat",
-                  "oficial"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "candidat"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "el",
-                  "alcald"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "alcald"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "el",
-                  "president"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "sector",
-                  "empresarial"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "sector",
-                  "priv"
-                ]
-              },
-              {
-                "intent": "nature.politics",
-                "tokens": [
-                  "alianc"
-                ]
-              }
-            ],
             "features": {
               "entro": 1,
-              "a": 4,
+              "a": 1,
               "rob": 1,
-              "el": 10,
+              "el": 1,
               "mat": 1,
               "asesin": 1,
-              "estaf": 2,
+              "estaf": 1,
               "person": 1,
               "carcel": 1,
-              "encarcel": 2,
+              "encarcel": 1,
               "asesinat": 1,
-              "salv": 2,
-              "ayud": 2,
+              "salv": 1,
+              "ayud": 1,
               "nin": 1,
               "don": 1,
               "al": 1,
@@ -393,262 +361,347 @@
               "man": 1,
               "buen": 1,
               "samaritan": 1,
-              "president": 2,
+              "president": 1,
               "dec": 1,
               "polit": 1,
               "diput": 1,
-              "candidat": 2,
+              "candidat": 1,
               "oficial": 1,
-              "alcald": 2,
-              "sector": 2,
+              "alcald": 1,
+              "sector": 1,
               "empresarial": 1,
               "priv": 1,
               "alianc": 1
             },
-            "isEditing": false,
-            "className": "BrainNLU",
-            "classifier": {
-              "className": "BrainClassifier",
-              "settings": {
-                "language": "es",
-                "useNoneFeature": true,
-                "config": {
-                  "activation": "leaky-relu",
-                  "hiddenLayers": [],
-                  "iterations": 20000,
-                  "learningRate": 0.7,
-                  "errorThresh": 0.00005,
-                  "momentum": 0.5,
-                  "deltaErrorThresh": 0.000001,
-                  "maxDecimals": 9,
-                  "leakyReluAlpha": 0.08,
-                  "timeout": 120000
-                }
+            "intents": {
+              "nature.crime": 1,
+              "nature.heroism": 1,
+              "nature.politics": 1
+            },
+            "intentFeatures": {
+              "nature.crime": {
+                "entro": 1,
+                "a": 1,
+                "rob": 1,
+                "el": 1,
+                "mat": 1,
+                "asesin": 1,
+                "estaf": 1,
+                "person": 1,
+                "carcel": 1,
+                "encarcel": 1,
+                "asesinat": 1
               },
-              "labels": [],
-              "network": {
-                "sizes": [
-                  35,
-                  4
-                ],
-                "layers": [
-                  {
-                    "entro": {},
-                    "a": {},
-                    "rob": {},
-                    "el": {},
-                    "mat": {},
-                    "asesin": {},
-                    "estaf": {},
-                    "person": {},
-                    "carcel": {},
-                    "encarcel": {},
-                    "asesinat": {},
-                    "salv": {},
-                    "ayud": {},
-                    "nin": {},
-                    "don": {},
-                    "al": {},
-                    "pai": {},
-                    "gent": {},
-                    "dar": {},
-                    "una": {},
-                    "man": {},
-                    "buen": {},
-                    "samaritan": {},
-                    "president": {},
-                    "dec": {},
-                    "polit": {},
-                    "diput": {},
-                    "candidat": {},
-                    "oficial": {},
-                    "alcald": {},
-                    "sector": {},
-                    "empresarial": {},
-                    "priv": {},
-                    "alianc": {},
-                    "nonefeature": {}
-                  },
-                  {
-                    "nature.crime": {
-                      "bias": 4.182990032,
-                      "weights": {
-                        "entro": 3.915339231,
-                        "a": 0.448798329,
-                        "rob": 3.915339231,
-                        "el": -0.578450263,
-                        "mat": 8.937176704,
-                        "asesin": 8.30026722,
-                        "estaf": 8.161329269,
-                        "person": 0.380429775,
-                        "carcel": 8.284716606,
-                        "encarcel": 8.636203766,
-                        "asesinat": 8.274384499,
-                        "salv": -3.691230297,
-                        "ayud": -3.846973896,
-                        "nin": -2.220203161,
-                        "don": -4.196717739,
-                        "al": -0.683250308,
-                        "pai": -0.683250308,
-                        "gent": -1.626770616,
-                        "dar": -1.443795919,
-                        "una": -1.443795919,
-                        "man": -1.443795919,
-                        "buen": -2.130625486,
-                        "samaritan": -2.130625486,
-                        "president": -3.563441992,
-                        "dec": -1.460272431,
-                        "polit": -4.190490723,
-                        "diput": -3.576019049,
-                        "candidat": -4.187125683,
-                        "oficial": -1.2018677,
-                        "alcald": -4.1859622,
-                        "sector": -2.797239065,
-                        "empresarial": -1.401181936,
-                        "priv": -1.396057844,
-                        "alianc": -4.169014931,
-                        "nonefeature": -4.162309647
-                      }
-                    },
-                    "nature.heroism": {
-                      "bias": 1.778498081,
-                      "weights": {
-                        "entro": -1.819999099,
-                        "a": 1.63510859,
-                        "rob": -1.819999099,
-                        "el": 0.88618654,
-                        "mat": -2.64408946,
-                        "asesin": -1.774861693,
-                        "estaf": -2.281926394,
-                        "person": -2.012281656,
-                        "carcel": -1.771918058,
-                        "encarcel": -2.628487587,
-                        "asesinat": -1.764539361,
-                        "salv": 9.760568619,
-                        "ayud": 5.467388153,
-                        "nin": 2.740645885,
-                        "don": 10.685625076,
-                        "al": 0.491976172,
-                        "pai": 0.491976172,
-                        "gent": 2.726743221,
-                        "dar": 3.573184013,
-                        "una": 3.573184013,
-                        "man": 3.573184013,
-                        "buen": 5.359153271,
-                        "samaritan": 5.359153271,
-                        "president": -2.658452988,
-                        "dec": -1.371718764,
-                        "polit": -1.837941885,
-                        "diput": -2.661821365,
-                        "candidat": -1.879190445,
-                        "oficial": -0.727754354,
-                        "alcald": -2.660357714,
-                        "sector": -1.337571144,
-                        "empresarial": -0.688592494,
-                        "priv": -0.648978651,
-                        "alianc": -1.785355091,
-                        "nonefeature": -1.782048583
-                      }
-                    },
-                    "nature.politics": {
-                      "bias": 4.139833144,
-                      "weights": {
-                        "entro": -0.974603355,
-                        "a": -3.346245766,
-                        "rob": -0.974603355,
-                        "el": 0.705499351,
-                        "mat": -5.110267639,
-                        "asesin": -4.107412338,
-                        "estaf": -4.107171535,
-                        "person": -1.211996436,
-                        "carcel": -4.098635197,
-                        "encarcel": -5.021950722,
-                        "asesinat": -4.090909481,
-                        "salv": -4.948438168,
-                        "ayud": -1.159646988,
-                        "nin": -0.677958071,
-                        "don": -4.080914974,
-                        "al": -0.489365578,
-                        "pai": -0.489365578,
-                        "gent": -0.4816899,
-                        "dar": -1.373229623,
-                        "una": -1.373229623,
-                        "man": -1.373229623,
-                        "buen": -2.056564331,
-                        "samaritan": -2.056564331,
-                        "president": 7.366046906,
-                        "dec": 0.477941185,
-                        "polit": 8.40750885,
-                        "diput": 7.619857311,
-                        "candidat": 8.161024094,
-                        "oficial": 0.387532979,
-                        "alcald": 8.040374756,
-                        "sector": 5.576403141,
-                        "empresarial": 2.788308859,
-                        "priv": 2.788096905,
-                        "alianc": 8.353089333,
-                        "nonefeature": -4.115065575
-                      }
-                    },
-                    "None": {
-                      "bias": 0.79003293,
-                      "weights": {
-                        "entro": -0.260525882,
-                        "a": -0.335263759,
-                        "rob": -0.260525882,
-                        "el": -0.683205724,
-                        "mat": -0.252532929,
-                        "asesin": -0.790550113,
-                        "estaf": -0.790064633,
-                        "person": -0.06113689,
-                        "carcel": -0.789176047,
-                        "encarcel": -0.788683176,
-                        "asesinat": -0.787535787,
-                        "salv": -0.309605479,
-                        "ayud": -0.013600977,
-                        "nin": -0.01266121,
-                        "don": -0.786499619,
-                        "al": -0.240029365,
-                        "pai": -0.240029365,
-                        "gent": -0.000939768,
-                        "dar": -0.263220608,
-                        "una": -0.263220608,
-                        "man": -0.263220608,
-                        "buen": -0.394806206,
-                        "samaritan": -0.394806206,
-                        "president": -0.104738325,
-                        "dec": -0.065467812,
-                        "polit": -0.784866452,
-                        "diput": -0.109791793,
-                        "candidat": -0.784597754,
-                        "oficial": -0.204388484,
-                        "alcald": -0.782261014,
-                        "sector": -0.525499761,
-                        "empresarial": -0.262941986,
-                        "priv": -0.262557685,
-                        "alianc": -0.779839754,
-                        "nonefeature": 11.676764488
-                      }
-                    }
-                  }
-                ],
-                "trainOpts": {
-                  "iterations": 20000,
-                  "errorThresh": 0.00005,
-                  "fixedError": false,
-                  "deltaErrorThresh": 0.000001,
-                  "learningRate": 0.7,
-                  "momentum": 0.5,
-                  "leakyReluAlpha": 0.08,
-                  "maxDecimals": 9,
-                  "log": false
-                }
+              "nature.heroism": {
+                "el": 1,
+                "salv": 1,
+                "ayud": 1,
+                "a": 1,
+                "nin": 1,
+                "don": 1,
+                "al": 1,
+                "pai": 1,
+                "gent": 1,
+                "dar": 1,
+                "una": 1,
+                "man": 1,
+                "buen": 1,
+                "samaritan": 1
+              },
+              "nature.politics": {
+                "el": 1,
+                "president": 1,
+                "dec": 1,
+                "polit": 1,
+                "diput": 1,
+                "candidat": 1,
+                "oficial": 1,
+                "alcald": 1,
+                "sector": 1,
+                "empresarial": 1,
+                "priv": 1,
+                "alianc": 1
               }
+            },
+            "featuresToIntent": {
+              "entro": [
+                "nature.crime"
+              ],
+              "a": [
+                "nature.crime",
+                "nature.heroism"
+              ],
+              "rob": [
+                "nature.crime"
+              ],
+              "el": [
+                "nature.crime",
+                "nature.heroism",
+                "nature.politics"
+              ],
+              "mat": [
+                "nature.crime"
+              ],
+              "asesin": [
+                "nature.crime"
+              ],
+              "estaf": [
+                "nature.crime"
+              ],
+              "person": [
+                "nature.crime"
+              ],
+              "carcel": [
+                "nature.crime"
+              ],
+              "encarcel": [
+                "nature.crime"
+              ],
+              "asesinat": [
+                "nature.crime"
+              ],
+              "salv": [
+                "nature.heroism"
+              ],
+              "ayud": [
+                "nature.heroism"
+              ],
+              "nin": [
+                "nature.heroism"
+              ],
+              "don": [
+                "nature.heroism"
+              ],
+              "al": [
+                "nature.heroism"
+              ],
+              "pai": [
+                "nature.heroism"
+              ],
+              "gent": [
+                "nature.heroism"
+              ],
+              "dar": [
+                "nature.heroism"
+              ],
+              "una": [
+                "nature.heroism"
+              ],
+              "man": [
+                "nature.heroism"
+              ],
+              "buen": [
+                "nature.heroism"
+              ],
+              "samaritan": [
+                "nature.heroism"
+              ],
+              "president": [
+                "nature.politics"
+              ],
+              "dec": [
+                "nature.politics"
+              ],
+              "polit": [
+                "nature.politics"
+              ],
+              "diput": [
+                "nature.politics"
+              ],
+              "candidat": [
+                "nature.politics"
+              ],
+              "oficial": [
+                "nature.politics"
+              ],
+              "alcald": [
+                "nature.politics"
+              ],
+              "sector": [
+                "nature.politics"
+              ],
+              "empresarial": [
+                "nature.politics"
+              ],
+              "priv": [
+                "nature.politics"
+              ],
+              "alianc": [
+                "nature.politics"
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "es",
+                "tag": "nlu-es",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true,
+                "log": true
+              },
+              "features": [
+                "entro",
+                "a",
+                "rob",
+                "el",
+                "mat",
+                "asesin",
+                "estaf",
+                "person",
+                "carcel",
+                "encarcel",
+                "asesinat",
+                "salv",
+                "ayud",
+                "nin",
+                "don",
+                "al",
+                "pai",
+                "gent",
+                "dar",
+                "una",
+                "man",
+                "buen",
+                "samaritan",
+                "president",
+                "dec",
+                "polit",
+                "diput",
+                "candidat",
+                "oficial",
+                "alcald",
+                "sector",
+                "empresarial",
+                "priv",
+                "alianc"
+              ],
+              "intents": [
+                "nature.crime",
+                "nature.heroism",
+                "nature.politics"
+              ],
+              "perceptrons": [
+                [
+                  4.351289749145508,
+                  0.5827135443687439,
+                  4.351289749145508,
+                  -0.49131569266319275,
+                  9.500008583068848,
+                  9.28781795501709,
+                  9.080545425415039,
+                  0.3111909329891205,
+                  9.28754997253418,
+                  9.52055549621582,
+                  9.293313980102539,
+                  -4.3498969078063965,
+                  -4.061397552490234,
+                  -2.169919490814209,
+                  -5.245760917663574,
+                  -1.128980040550232,
+                  -1.128980040550232,
+                  -1.8184269666671753,
+                  -1.8138190507888794,
+                  -1.8138190507888794,
+                  -1.8138190507888794,
+                  -2.636101722717285,
+                  -2.636101722717285,
+                  -4.33028507232666,
+                  -1.3699543476104736,
+                  -5.0675048828125,
+                  -4.343327522277832,
+                  -5.074213981628418,
+                  -1.2062958478927612,
+                  -5.048319339752197,
+                  -3.4221110343933105,
+                  -1.7304410934448242,
+                  -1.689778447151184,
+                  -5.016907215118408,
+                  4.931265621595916
+                ],
+                [
+                  -2.219269037246704,
+                  1.8248399496078491,
+                  -2.219269037246704,
+                  1.0768327713012695,
+                  -3.0907022953033447,
+                  -2.0654425621032715,
+                  -2.752027750015259,
+                  -2.170351505279541,
+                  -2.0502612590789795,
+                  -3.086416721343994,
+                  -2.035306930541992,
+                  11.137587547302246,
+                  6.239999771118164,
+                  3.1207292079925537,
+                  12.258935928344727,
+                  0.5703960061073303,
+                  0.5703960061073303,
+                  3.119309425354004,
+                  4.086991310119629,
+                  4.086991310119629,
+                  4.086991310119629,
+                  6.130013942718506,
+                  6.130013942718506,
+                  -3.0937750339508057,
+                  -1.268582820892334,
+                  -2.212258815765381,
+                  -3.0962977409362793,
+                  -3.099991798400879,
+                  -0.4719080924987793,
+                  -3.0953166484832764,
+                  -1.7653273344039917,
+                  -0.8906882405281067,
+                  -0.8287461996078491,
+                  -2.0980286598205566,
+                  2.0230617968761457
+                ],
+                [
+                  -0.8539352416992188,
+                  -4.178124904632568,
+                  -0.8539352416992188,
+                  0.4771745204925537,
+                  -6.286863327026367,
+                  -4.969042778015137,
+                  -4.967383861541748,
+                  -1.5116124153137207,
+                  -4.963496685028076,
+                  -6.136897087097168,
+                  -4.959983825683594,
+                  -5.981748104095459,
+                  -1.5505175590515137,
+                  -0.9307950139045715,
+                  -4.983855724334717,
+                  -0.49905866384506226,
+                  -0.49905866384506226,
+                  -0.5824559330940247,
+                  -1.6635113954544067,
+                  -1.6635113954544067,
+                  -1.6635113954544067,
+                  -2.4916179180145264,
+                  -2.4916179180145264,
+                  8.499945640563965,
+                  0.4447146952152252,
+                  9.333234786987305,
+                  8.697651863098145,
+                  8.905861854553223,
+                  0.5186637043952942,
+                  9.04142951965332,
+                  6.18778657913208,
+                  3.0936498641967773,
+                  3.095005512237549,
+                  9.304375648498535,
+                  5.0103361576883225
+                ]
+              ]
             }
           }
         }
       }
     },
+    "intentDomains": {},
     "extraSentences": [
       [
         "es",
@@ -784,31 +837,25 @@
       ]
     ]
   },
-  "nerManager": {
-    "settings": {},
-    "threshold": 0.8,
-    "builtins": [
-      "Number",
-      "Ordinal",
-      "Percentage",
-      "Age",
-      "Currency",
-      "Dimension",
-      "Temperature",
-      "DateTime",
-      "PhoneNumber",
-      "IpAddress",
-      "Boolean",
-      "Email",
-      "Hashtag",
-      "URL"
-    ],
-    "namedEntities": {}
+  "ner": {
+    "settings": {
+      "tag": "ner",
+      "entityPreffix": "%",
+      "entitySuffix": "%"
+    },
+    "rules": {}
   },
-  "slotManager": {},
-  "responses": {},
-  "actions": {},
-  "utteranceDict": {
-    "?": "help"
-  }
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {}
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {}
+  },
+  "slotManager": {}
 }

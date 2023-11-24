@@ -22,14 +22,7 @@ const searchCase = async (name, source = 2, searchLevel = 0, res) => {
     switch (source) {
         // TODO: 
         case 1:
-            scrapper = new nuevoDiario(name);
-            ({ results, error: errorResult } = scrapper.scrap());
-
-            if (errorResult != null) {
-                return res.status(503).json({ message: errorResult.toString() });
-            }
-
-            return res.status(200).json(results);
+       
 
         // Web Site
         case 2:
